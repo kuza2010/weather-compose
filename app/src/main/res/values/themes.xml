@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Base application theme. In this Jetpack Compose sample app, these colors
+        don't affect the Composable functions, just the color of the Status Bar.
+        For the colors used by the Composable functions, see Theme.kt
+    -->
+    <style name="Theme.ADWeather" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.ADSplashScreenTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/statusBarColor</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.ADWeather</item>
+    </style>
+</resources>
