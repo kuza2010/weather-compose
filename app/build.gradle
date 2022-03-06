@@ -1,7 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
+
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
     compileSdk 31
@@ -17,6 +22,9 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        // add api key to build config
+        buildConfigField("String", "API_KEY", apikeyProperties['API_KEY'])
     }
 
     buildTypes {
@@ -48,6 +56,8 @@ android {
 dependencies {
     // core
     implementation "androidx.core:core-ktx:$core_ktx_version"
+
+    // splashscreen
     implementation "androidx.core:core-splashscreen:$core_splash_version"
 
     // lifecycle
@@ -56,11 +66,18 @@ dependencies {
     // compose
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation("androidx.navigation:navigation-compose:$compose_nav_version")
     implementation "androidx.activity:activity-compose:$activity_compose_version"
 
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    // network
+    implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+
+    // dagger
+    kapt("com.google.dagger:dagger-compiler:$dagger_version")
+    implementation("com.google.dagger:dagger:$dagger_version")
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
