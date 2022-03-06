@@ -74,6 +74,9 @@ dependencies {
     // network
     implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    // rxjava
+    implementation("io.reactivex.rxjava3:rxjava:$rxjava_version")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:$rxjava_adapter_version")
 
     // dagger
     kapt("com.google.dagger:dagger-compiler:$dagger_version")
