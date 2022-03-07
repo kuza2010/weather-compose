@@ -1,7 +1,6 @@
 package ru.adanil.weather.dagger
 
 import android.content.Context
-import dagger.Component
 import dagger.Module
 import dagger.Provides
 import ru.adanil.weather.BuildConfig
@@ -10,16 +9,7 @@ import ru.adanil.weather.dagger.modules.NetworkModule
 import java.io.IOException
 import java.util.*
 
-@Component(modules = [AppModule::class])
-interface AppComponent
-
-
-@Module(
-    includes = [
-        NetworkModule::class,
-        GatewayModule::class
-    ]
-)
+@Module(includes = [NetworkModule::class, GatewayModule::class, AppBindingModule::class])
 class AppModule {
 
     @Provides

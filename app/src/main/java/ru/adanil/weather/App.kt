@@ -2,8 +2,6 @@ package ru.adanil.weather
 
 import android.app.Application
 import android.content.Context
-import ru.adanil.weather.dagger.AppComponent
-import ru.adanil.weather.dagger.DaggerAppComponent
 
 class App : Application() {
 
@@ -11,7 +9,9 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        appComponent = DaggerAppComponent.create()
+        appComponent = DaggerAppComponent.builder()
+            .context(context = this)
+            .build()
     }
 
 }
