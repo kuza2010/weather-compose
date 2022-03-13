@@ -1,10 +1,13 @@
 package ru.adanil.weather.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 val DarkWeatherPalette = darkColors(
@@ -54,4 +57,16 @@ fun WeatherTheme(
         shapes = Shapes,
         content = content
     )
+}
+
+
+internal val LocalWeatherColors = staticCompositionLocalOf<Colors>{
+    error("No Color provided")
+}
+
+object WeatherTheme {
+    val color: Colors
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalWeatherColors.current
 }
