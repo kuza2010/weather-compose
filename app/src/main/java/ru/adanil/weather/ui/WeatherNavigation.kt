@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import ru.adanil.weather.ui.screens.OfflineActivity
 import ru.adanil.weather.ui.screens.WeatherScreens
 
 @Composable
@@ -17,7 +18,7 @@ fun WeatherNavigation(
             Text(text = "You are on main screen")
         }
         composable(route = WeatherScreens.OfflineScreen.route) {
-            Text(text = "You are offline")
+            OfflineActivity()
         }
     }
 }

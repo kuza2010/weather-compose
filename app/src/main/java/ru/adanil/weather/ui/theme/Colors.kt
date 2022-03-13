@@ -1,5 +1,10 @@
 package ru.adanil.weather.ui.theme
 
+import androidx.compose.material.Colors
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 val Primary900 = Color(0xFF3F207D)
@@ -41,3 +46,21 @@ val DarkPrimary24dp = Color(0xFF434146)
 
 val Error = Color(0xFF3F207D)
 val ErrorDark = Color(0xFF8C79B1)       // Error color + 40% white transparent
+
+
+internal val LocalWeatherColors = staticCompositionLocalOf<Colors> {
+    error("No Color provided")
+}
+
+@Composable
+fun ProvideWeatherColors(
+    colors: Colors,
+    content: @Composable () -> Unit
+) {
+    val colorPalette = remember {
+        // Explicitly creating a new object here so we don't mutate the initial [colors]
+        // provided, and overwrite the values set in it.
+        colors.copy()
+    }
+    CompositionLocalProvider(LocalWeatherColors provides colorPalette, content = content)
+}

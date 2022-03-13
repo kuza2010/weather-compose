@@ -7,7 +7,6 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 val DarkWeatherPalette = darkColors(
@@ -51,22 +50,19 @@ fun WeatherTheme(
         LightWeatherPalette
     }
 
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
-}
-
-
-internal val LocalWeatherColors = staticCompositionLocalOf<Colors>{
-    error("No Color provided")
+    ProvideWeatherColors(colors) {
+        MaterialTheme(
+            colors = colors,
+            typography = Typography,
+            shapes = Shapes,
+            content = content
+        )
+    }
 }
 
 object WeatherTheme {
     val color: Colors
-    @Composable
-    @ReadOnlyComposable
-    get() = LocalWeatherColors.current
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalWeatherColors.current
 }
