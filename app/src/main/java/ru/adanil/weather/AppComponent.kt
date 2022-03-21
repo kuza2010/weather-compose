@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import ru.adanil.weather.dagger.AppModule
+import ru.adanil.weather.ui.screens.main.MainViewModel
 
 @Component(modules = [AppModule::class])
 interface AppComponent {
@@ -15,5 +16,6 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    fun inject(mainActivity: MainActivity)
+    fun mainViewModel(): MainViewModel.Factory
+
 }
