@@ -1,4 +1,4 @@
-package ru.adanil.weather.ui.screens
+package ru.adanil.weather.ui.screens.offline
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image

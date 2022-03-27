@@ -16,13 +16,13 @@ class MainViewModel @AssistedInject constructor(
     }
 
     fun getNextDestination(): String {
-        return when (isServiceAvailable()) {
+        return when (isApiAvailable()) {
             true -> WeatherScreens.MainScreen.route
             false -> WeatherScreens.OfflineScreen.route
         }
     }
 
-    private fun isServiceAvailable(): Boolean {
+    private fun isApiAvailable(): Boolean {
         return healthCheckService.isApiAvailable()
     }
 
