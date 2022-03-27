@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import ru.adanil.weather.ui.screens.offline.OfflineActivity
 import ru.adanil.weather.ui.screens.WeatherScreens
+import ru.adanil.weather.ui.screens.offline.OfflineActivity
 
 @Composable
 fun WeatherNavigation(
@@ -22,25 +22,3 @@ fun WeatherNavigation(
         }
     }
 }
-
-//fun NavGraphBuilder.mainGraph() {
-//    navigation(
-//        startDestination = WeatherScreens.MainScreen.route,
-//        route = WeatherScreens.MainScreen.route
-//    ) {
-//        composable(route = WeatherScreens.MainScreen.route) {
-//            Text(text = "You are on main screen")
-//        }
-//    }
-//}
-//
-//fun NavGraphBuilder.offlineGraph() {
-//    navigation(
-//        startDestination = WeatherScreens.OfflineScreen.route,
-//        route = WeatherScreens.OfflineScreen.route
-//    ) {
-//        composable(route = WeatherScreens.OfflineScreen.route) {
-//            Text(text = "You are offline")
-//        }
-//    }
-//}
