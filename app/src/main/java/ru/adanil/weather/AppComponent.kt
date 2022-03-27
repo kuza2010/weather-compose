@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import ru.adanil.weather.dagger.AppModule
-import ru.adanil.weather.ui.screens.main.MainViewModel
+import ru.adanil.weather.ui.screens.splashscreen.SplashScreenViewModel
 
 @Component(modules = [AppModule::class])
 interface AppComponent {
@@ -16,6 +16,6 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    fun mainViewModel(): MainViewModel.Factory
+    fun splashScreenViewModel(): SplashScreenViewModel.Factory
 
 }

@@ -1,4 +1,4 @@
-package ru.adanil.weather.ui.screens.main
+package ru.adanil.weather.ui.screens.splashscreen
 
 import androidx.lifecycle.ViewModel
 import dagger.assisted.AssistedFactory
@@ -6,13 +6,13 @@ import dagger.assisted.AssistedInject
 import ru.adanil.weather.core.service.HealthCheckService
 import ru.adanil.weather.ui.screens.WeatherScreens
 
-class MainViewModel @AssistedInject constructor(
+class SplashScreenViewModel @AssistedInject constructor(
     private val healthCheckService: HealthCheckService
 ) : ViewModel() {
 
     @AssistedFactory
     interface Factory {
-        fun create(): MainViewModel
+        fun create(): SplashScreenViewModel
     }
 
     fun getNextDestination(): String {
