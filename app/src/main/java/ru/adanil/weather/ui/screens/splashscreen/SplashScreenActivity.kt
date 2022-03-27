@@ -1,15 +1,13 @@
 package ru.adanil.weather.ui.screens.splashscreen
 
+import WeatherApp
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.compose.rememberNavController
 import ru.adanil.weather.appComponent
 import ru.adanil.weather.extension.viewModel
-import ru.adanil.weather.ui.WeatherNavigation
-import ru.adanil.weather.ui.theme.WeatherTheme
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : ComponentActivity() {
@@ -28,10 +26,7 @@ class SplashScreenActivity : ComponentActivity() {
         showSplashScreen = false
 
         setContent {
-            WeatherTheme {
-                val navHostController = rememberNavController()
-                WeatherNavigation(navHostController, nexScreen)
-            }
+            WeatherApp(nexScreen)
         }
     }
 

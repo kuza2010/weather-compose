@@ -53,9 +53,9 @@ fun WeatherTheme(
     ProvideWeatherColors(colors) {
         MaterialTheme(
             colors = colors,
-            typography = Typography,
             shapes = Shapes,
-            content = content
+            content = content,
+            typography = Typography
         )
     }
 }
