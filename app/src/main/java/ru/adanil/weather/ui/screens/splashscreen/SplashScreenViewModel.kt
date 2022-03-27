@@ -21,7 +21,7 @@ class SplashScreenViewModel @AssistedInject constructor(
         return when (isApiAvailable()) {
             true -> WeatherScreens.MainScreen.route
             false -> {
-                SnackBarManager.showMessage(R.string.oops_error_message)
+                SnackBarManager.showMessage(R.string.error_oops_error_message)
                 WeatherScreens.OfflineScreen.route
             }
         }

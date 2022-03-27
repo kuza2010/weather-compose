@@ -2,5 +2,7 @@
     <string name="app_name">Weather today</string>
 
     <!-- Error messages -->
-    <string name="oops_error_message">Oops…Something went wrong</string>
+    <string name="error_oops_error_message">Oops…Something went wrong</string>
+    <string name="error_server_not_reachable">\'Weather today\' can not reach the server. Please, check your internet connection and try it again.</string>
+    <string name="error_we_are_sorry">We are sorry!</string>
 </resources>

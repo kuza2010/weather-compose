@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,17 +42,17 @@ fun OfflineActivity() {
                 colorFilter = ColorFilter.tint(WeatherTheme.color.error)
             )
             Text(
-                text = "We are sorry!",
                 textAlign = TextAlign.Center,
                 color = WeatherTheme.color.error,
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.h6,
+                text = stringResource(R.string.error_we_are_sorry)
             )
             Text(
                 textAlign = TextAlign.Center,
                 color = WeatherTheme.color.error,
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.padding(0.dp, 8.dp, 0.dp, 0.dp),
-                text = "The Weather application can not reach the server. Please check your internet connection and try it again."
+                text = stringResource(R.string.error_server_not_reachable)
             )
         }
     }
