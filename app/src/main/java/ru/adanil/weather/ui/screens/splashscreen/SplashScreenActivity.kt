@@ -1,6 +1,6 @@
 package ru.adanil.weather.ui.screens.splashscreen
 
-import WeatherApp
+import ru.adanil.weather.WeatherApp
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
