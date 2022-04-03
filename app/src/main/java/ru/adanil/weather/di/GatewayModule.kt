@@ -1,12 +1,15 @@
-package ru.adanil.weather.dagger.modules
+package ru.adanil.weather.di
 
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import ru.adanil.weather.core.gateway.HealthCheckGateway
 import ru.adanil.weather.core.gateway.RetrofitFactory
 import java.util.*
 
 @Module
+@InstallIn(SingletonComponent::class)
 class GatewayModule {
 
     @Provides

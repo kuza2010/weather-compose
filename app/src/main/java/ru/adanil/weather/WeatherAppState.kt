@@ -40,7 +40,7 @@ class WeatherAppState(
     val snackbarManager: SnackBarManager,
     val navController: NavHostController,
 ) {
-    // Process snackbars coming from SnackBarManager
+    // Process snackbar's coming from SnackBarManager
     init {
         coroutineScope.launch {
             snackbarManager.messages.collect { messageList ->

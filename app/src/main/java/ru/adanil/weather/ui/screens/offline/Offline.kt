@@ -19,7 +19,7 @@ import ru.adanil.weather.R
 import ru.adanil.weather.ui.theme.WeatherTheme
 
 @Composable
-fun OfflineActivity() {
+fun OfflineScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -67,6 +67,6 @@ fun OfflineActivity() {
 @Composable
 fun PreviewOfflineActivity() {
     WeatherTheme() {
-        OfflineActivity()
+        OfflineScreen()
     }
 }

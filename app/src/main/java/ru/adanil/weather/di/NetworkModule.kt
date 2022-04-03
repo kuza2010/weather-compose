@@ -1,7 +1,9 @@
-package ru.adanil.weather.dagger.modules
+package ru.adanil.weather.di
 
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import ru.adanil.weather.BuildConfig
 import ru.adanil.weather.core.gateway.interceptors.HttpLoggingInterceptor
@@ -10,6 +12,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 @Module
+@InstallIn(SingletonComponent::class)
 class NetworkModule {
 
     @Provides
