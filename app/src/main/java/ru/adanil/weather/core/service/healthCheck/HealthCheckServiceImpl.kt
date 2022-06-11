@@ -1,9 +1,8 @@
-package ru.adanil.weather.core.service.impl
+package ru.adanil.weather.core.service.healthCheck
 
 import android.util.Log
 import retrofit2.HttpException
 import ru.adanil.weather.core.gateway.HealthCheckGateway
-import ru.adanil.weather.core.service.HealthCheckService
 import ru.adanil.weather.util.LoggerTagUtil
 import javax.inject.Inject
 

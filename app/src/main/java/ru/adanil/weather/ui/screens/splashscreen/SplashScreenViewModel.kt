@@ -1,11 +1,9 @@
 package ru.adanil.weather.ui.screens.splashscreen
 
 import androidx.lifecycle.ViewModel
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.adanil.weather.R
-import ru.adanil.weather.core.service.HealthCheckService
+import ru.adanil.weather.core.service.healthCheck.HealthCheckService
 import ru.adanil.weather.model.SnackBarManager
 import ru.adanil.weather.ui.screens.WeatherScreens
 import javax.inject.Inject
