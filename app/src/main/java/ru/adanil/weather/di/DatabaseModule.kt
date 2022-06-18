@@ -6,8 +6,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.adanil.weather.model.repository.CityDao
-import ru.adanil.weather.model.repository.WeatherDatabase
+import ru.adanil.weather.core.repository.CityDao
+import ru.adanil.weather.core.repository.WeatherDatabase
 import javax.inject.Singleton
 
 @Module

@@ -1,4 +1,4 @@
-package ru.adanil.weather.model.repository
+package ru.adanil.weather.core.repository
 
 import android.content.Context
 import androidx.room.Database

@@ -28,7 +28,7 @@ fun HomeScreen(exampleViewModel: HomeScreenViewModel) {
     WeatherBackdropScaffold(
         appBar = {
             HomeAppBar(
-                currentCity = "Moscow",
+                currentCity = uiState.currentCity,
                 onAppSettingsClick = {},
                 onChangeLocationClick = {},
                 connectionStatus = uiState.connectionStatus

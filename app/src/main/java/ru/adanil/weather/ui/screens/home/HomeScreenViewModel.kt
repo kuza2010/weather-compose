@@ -7,17 +7,25 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.adanil.weather.core.service.connectivity.ConnectionStatus
 import ru.adanil.weather.core.service.connectivity.ConnectivityObserverService
+import ru.adanil.weather.core.repository.CityDao
+import ru.adanil.weather.core.repository.CityEntity
+import ru.adanil.weather.core.repository.CityRepository
+import ru.adanil.weather.model.City
 import javax.inject.Inject
 
 
 data class HomeUiState(
     val isLoading: Boolean = true,
+    val cities: List<City>? = null,
     val connectionStatus: ConnectionStatus? = null
-)
+) {
+    val currentCity : City? = cities?.find { it.isSelected }
+}
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val connectivityObserverService: ConnectivityObserverService,
+    private val cityRepository: CityRepository,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
@@ -31,6 +39,13 @@ class HomeScreenViewModel @Inject constructor(
 
     private fun refresh() {
         viewModelScope.launch {
+            cityRepository.getAll()
+                .collect { userCity ->
+                    _uiState.updateAndGet {
+                        _uiState.value.copy(cities = userCity)
+                    }
+                }
+
             connectivityObserverService.observeInternetConnection
                 .distinctUntilChanged()
                 .collect { newConnectionStatus ->

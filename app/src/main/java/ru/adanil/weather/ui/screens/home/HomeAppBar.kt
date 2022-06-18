@@ -16,12 +16,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.adanil.weather.R
 import ru.adanil.weather.core.service.connectivity.ConnectionStatus
+import ru.adanil.weather.model.City
 import ru.adanil.weather.ui.components.ConnectivityStatus
 import ru.adanil.weather.ui.components.WeatherIconMedium
 
 @Composable
 fun HomeAppBar(
-    currentCity: String?,
+    currentCity: City?,
     onAppSettingsClick: (() -> Unit)?,
     onChangeLocationClick: (() -> Unit)?,
     connectionStatus: ConnectionStatus?,
@@ -39,7 +40,7 @@ fun HomeAppBar(
 
 @Composable
 fun AppBar(
-    currentCity: String?,
+    currentCity: City?,
     onAppSettingsClick: (() -> Unit)?,
     onChangeLocationClick: (() -> Unit)?,
 ) {
@@ -66,7 +67,7 @@ fun AppBar(
                 .weight(1f),
             fontSize = 25.sp,
             textAlign = TextAlign.Center,
-            text = currentCity ?: "Choose your city",
+            text = currentCity?.cityName ?: "Choose your city",
         )
         IconButton(
             onClick = { onAppSettingsClick?.invoke() },
