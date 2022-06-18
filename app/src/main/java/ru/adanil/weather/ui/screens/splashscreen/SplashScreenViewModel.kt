@@ -2,6 +2,7 @@ package ru.adanil.weather.ui.screens.splashscreen
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.runBlocking
 import ru.adanil.weather.R
 import ru.adanil.weather.core.service.healthCheck.HealthCheckService
 import ru.adanil.weather.model.SnackBarManager
@@ -24,7 +25,7 @@ class SplashScreenViewModel @Inject constructor(
     }
 
     private fun isApiAvailable(): Boolean {
-        return healthCheckService.isApiAvailable()
+        return runBlocking { healthCheckService.isApiAvailable() }
     }
 
 }

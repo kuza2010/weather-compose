@@ -12,23 +12,20 @@ class HealthCheckServiceImpl @Inject constructor(
 
     private val TAG = LoggerTagUtil.getTag<HealthCheckService>()
 
-    override fun isApiAvailable(): Boolean {
+    override suspend fun isApiAvailable(): Boolean {
         return try {
-            val result = healthCheckGateway.healthCheck()
-                .blockingGet()
-
+            val response = healthCheckGateway.healthCheck()
+            response.isSuccessful || response.code() == 404
+        } catch (ex: Exception) {
             // 404 means api is available
-            return when (result) {
-                is HttpException -> {
-                    result.code() == 404
-                }
+            val status = when (ex) {
+                is HttpException -> ex.code() == 404
                 else -> {
+                    Log.e(TAG, "Unexpected error during api-health check call: ${ex.message}", ex)
                     false
                 }
             }
-        } catch (ex: Exception) {
-            Log.e(TAG, "Unexpected error during api-health check call: ${ex.message}", ex)
-            false
+            status
         }
     }
 
