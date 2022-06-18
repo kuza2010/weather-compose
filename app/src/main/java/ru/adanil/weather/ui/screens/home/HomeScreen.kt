@@ -16,11 +16,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import ru.adanil.weather.ui.components.WeatherBackdropScaffold
+import ru.adanil.weather.ui.screens.WeatherScreens
+import ru.adanil.weather.util.ext.navigateTo
 
 @ExperimentalMaterialApi
 @Composable
-fun HomeScreen(exampleViewModel: HomeScreenViewModel) {
+fun HomeScreen(
+    navController: NavController,
+    exampleViewModel: HomeScreenViewModel
+) {
     val uiState: HomeUiState by exampleViewModel.uiState.collectAsState()
     val backdropState = rememberBackdropScaffoldState(initialValue = BackdropValue.Revealed)
     val scrollState = rememberScrollState()
@@ -30,7 +36,9 @@ fun HomeScreen(exampleViewModel: HomeScreenViewModel) {
             HomeAppBar(
                 currentCity = uiState.currentCity,
                 onAppSettingsClick = {},
-                onChangeLocationClick = {},
+                onChangeLocationClick = {
+                    navController.navigateTo(WeatherScreens.UserCitiesScreen)
+                },
                 connectionStatus = uiState.connectionStatus
             )
         },

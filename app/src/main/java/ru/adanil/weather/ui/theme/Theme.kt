@@ -1,10 +1,7 @@
 package ru.adanil.weather.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Colors
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
@@ -49,14 +46,17 @@ fun WeatherTheme(
     } else {
         LightWeatherPalette
     }
+    val typography = Typography
 
     ProvideWeatherColors(colors) {
-        MaterialTheme(
-            colors = colors,
-            shapes = Shapes,
-            content = content,
-            typography = Typography
-        )
+        ProvideWeatherTypography(typography) {
+            MaterialTheme(
+                colors = colors,
+                shapes = Shapes,
+                content = content,
+                typography = typography
+            )
+        }
     }
 }
 
@@ -65,4 +65,9 @@ object WeatherTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalWeatherColors.current
+
+    val typography: Typography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalWeatherTypography.current
 }

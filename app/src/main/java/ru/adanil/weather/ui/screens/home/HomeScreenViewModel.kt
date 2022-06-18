@@ -17,10 +17,9 @@ import javax.inject.Inject
 data class HomeUiState(
     val isLoading: Boolean = true,
     val cities: List<City>? = null,
-    val connectionStatus: ConnectionStatus? = null
-) {
+    val connectionStatus: ConnectionStatus? = null,
     val currentCity : City? = cities?.find { it.isSelected }
-}
+)
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(

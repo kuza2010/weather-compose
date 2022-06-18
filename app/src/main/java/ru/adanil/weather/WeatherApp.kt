@@ -7,6 +7,7 @@ import androidx.compose.material.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dagger.hilt.android.HiltAndroidApp
@@ -15,6 +16,8 @@ import ru.adanil.weather.ui.screens.WeatherScreens
 import ru.adanil.weather.ui.screens.home.HomeScreen
 import ru.adanil.weather.ui.screens.home.HomeScreenViewModel
 import ru.adanil.weather.ui.screens.offline.OfflineScreen
+import ru.adanil.weather.ui.screens.pref.UserCitiesScreen
+import ru.adanil.weather.ui.screens.pref.UserCitiesViewModel
 import ru.adanil.weather.ui.theme.WeatherTheme
 
 @HiltAndroidApp
@@ -39,19 +42,23 @@ fun WeatherApp(
                 startDestination = startDestination,
                 navController = appState.navController
             ) {
-                weatherAppNavGraph()
+                weatherAppNavGraph(appState.navController)
             }
         }
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
-private fun NavGraphBuilder.weatherAppNavGraph() {
+private fun NavGraphBuilder.weatherAppNavGraph(navController: NavHostController) {
     composable(route = WeatherScreens.MainScreen.route) {
-        val exampleViewModel = hiltViewModel<HomeScreenViewModel>()
-        HomeScreen(exampleViewModel)
+        val vm = hiltViewModel<HomeScreenViewModel>()
+        HomeScreen(navController, vm)
     }
     composable(route = WeatherScreens.OfflineScreen.route) {
         OfflineScreen()
+    }
+    composable(route = WeatherScreens.UserCitiesScreen.route) {
+        val vm = hiltViewModel<UserCitiesViewModel>()
+        UserCitiesScreen(navController, vm)
     }
 }

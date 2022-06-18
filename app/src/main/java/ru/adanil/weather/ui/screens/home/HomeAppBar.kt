@@ -6,10 +6,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -56,7 +60,7 @@ fun AppBar(
         ) {
             WeatherIconMedium(
                 contentDescription = "Add new location",
-                painter = painterResource(id = R.drawable.ic_baseline_add_24),
+                painter = rememberVectorPainter(Icons.Filled.Add),
             )
         }
         Text(
@@ -67,14 +71,15 @@ fun AppBar(
                 .weight(1f),
             fontSize = 25.sp,
             textAlign = TextAlign.Center,
-            text = currentCity?.cityName ?: "Choose your city",
+            text = currentCity?.name
+                ?: stringResource(id = R.string.message_select_city),
         )
         IconButton(
             onClick = { onAppSettingsClick?.invoke() },
         ) {
             WeatherIconMedium(
                 contentDescription = "App settings",
-                painter = painterResource(id = R.drawable.ic_baseline_settings_24),
+                painter = rememberVectorPainter(Icons.Filled.Settings),
             )
         }
     }
