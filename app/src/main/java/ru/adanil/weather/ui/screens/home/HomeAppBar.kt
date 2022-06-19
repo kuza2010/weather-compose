@@ -23,6 +23,7 @@ import ru.adanil.weather.core.service.connectivity.ConnectionStatus
 import ru.adanil.weather.model.City
 import ru.adanil.weather.ui.components.ConnectivityStatus
 import ru.adanil.weather.ui.components.WeatherIconMedium
+import ru.adanil.weather.ui.theme.WeatherTheme
 
 @Composable
 fun HomeAppBar(
@@ -69,7 +70,7 @@ fun AppBar(
             modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .weight(1f),
-            fontSize = 25.sp,
+            style = WeatherTheme.typography.h5,
             textAlign = TextAlign.Center,
             text = currentCity?.name
                 ?: stringResource(id = R.string.message_select_city),

@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import androidx.navigation.NavController
 import ru.adanil.weather.R
 import ru.adanil.weather.model.City
 import ru.adanil.weather.ui.components.WeatherCard
+import ru.adanil.weather.ui.components.WeatherIcon
 import ru.adanil.weather.ui.components.WeatherIconMedium
 import ru.adanil.weather.ui.components.WeatherTopAppBar
 import ru.adanil.weather.ui.theme.Shapes
@@ -49,7 +51,10 @@ fun UserCitiesScreen(
                     painter = rememberVectorPainter(Icons.Filled.ArrowBack)
                 )
             }
-            Text(text = stringResource(id = R.string.title_user_cities))
+            Text(
+                style = WeatherTheme.typography.h5,
+                text = stringResource(id = R.string.title_user_cities)
+            )
         }
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -71,6 +76,22 @@ fun UserCitiesScreen(
                         animationSpec = tween(durationMillis = 300)
                     )
                 )
+            }
+            item {
+                WeatherCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                ) {
+                    WeatherIcon(
+                        painter = rememberVectorPainter(Icons.Filled.AddCircle),
+                        contentDescription = "Add new city",
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .width(56.dp)
+                            .height(56.dp)
+                    )
+                }
             }
         }
     }
