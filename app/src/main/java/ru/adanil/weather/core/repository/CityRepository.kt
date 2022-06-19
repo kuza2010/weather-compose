@@ -14,6 +14,8 @@ class CityRepository @Inject constructor(
     fun getAll(): Flow<List<City>> = cityDao.getAll()
         .map { cityList -> cityList.map { it.toDomain() } }
 
-    suspend fun deleteAll() = cityDao.deleteAll()
+    suspend fun delete(city: City) {
+        cityDao.deleteByIdUsers(city.id)
+    }
 
 }

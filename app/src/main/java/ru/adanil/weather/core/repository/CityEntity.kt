@@ -11,5 +11,5 @@ data class CityEntity(
     @ColumnInfo(name = "city_name") val cityName: String,
     @ColumnInfo(name = "is_selected") val isSelected: Boolean
 ) {
-    fun toDomain(): City = City(cityName, isSelected)
+    fun toDomain(): City = City(id, cityName, isSelected)
 }
