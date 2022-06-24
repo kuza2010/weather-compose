@@ -1,4 +1,4 @@
-package ru.adanil.weather.ui.screens.splashscreen
+package ru.adanil.weather.ui.screens.splash
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

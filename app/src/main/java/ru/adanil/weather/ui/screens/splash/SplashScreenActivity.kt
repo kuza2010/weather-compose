@@ -1,4 +1,4 @@
-package ru.adanil.weather.ui.screens.splashscreen
+package ru.adanil.weather.ui.screens.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
