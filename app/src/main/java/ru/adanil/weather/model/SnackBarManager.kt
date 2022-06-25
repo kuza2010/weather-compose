@@ -16,15 +16,31 @@ data class Message(
 
 object SnackBarManager {
 
-    private val pMessages: MutableStateFlow<List<Message>> = MutableStateFlow(emptyList())
-    val messages: StateFlow<List<Message>> get() = pMessages.asStateFlow()
+    private val _messages: MutableStateFlow<List<Message>> = MutableStateFlow(emptyList())
+    private val _messagesWithAction: MutableStateFlow<List<Message>> = MutableStateFlow(emptyList())
+
+    val messages: StateFlow<List<Message>> get() = _messages.asStateFlow()
+    val messagesWithAction: StateFlow<List<Message>> get() = _messagesWithAction.asStateFlow()
+
 
     fun showMessage(message: Message) {
-        pMessages.update { it.plus(message) }
+        _messages.update { it.plus(message) }
     }
 
+    fun messageActionLabelClicked(message: Message) {
+        setMessageShown(message.id)
+        _messagesWithAction.update { it.plus(message) }
+    }
+
+
     fun setMessageShown(messageId: Long) {
-        pMessages.update { currentMessages ->
+        _messages.update { currentMessages ->
+            currentMessages.filterNot { it.id == messageId }
+        }
+    }
+
+    fun serMessageActionPerformed(messageId: Long) {
+        _messagesWithAction.update { currentMessages ->
             currentMessages.filterNot { it.id == messageId }
         }
     }

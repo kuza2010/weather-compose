@@ -1,18 +1,19 @@
 package ru.adanil.weather
 
-import android.content.res.Resources
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import ru.adanil.weather.model.Message
 import ru.adanil.weather.model.SnackBarManager
 
 @Composable
@@ -21,10 +22,8 @@ fun rememberWeatherAppState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
-    resources: Resources = LocalContext.current.resources,
 ): WeatherAppState = remember(scaffoldState, coroutineScope) {
     WeatherAppState(
-        resources = resources,
         navController = navController,
         scaffoldState = scaffoldState,
         coroutineScope = coroutineScope,
@@ -36,7 +35,6 @@ fun rememberWeatherAppState(
 class WeatherAppState(
     coroutineScope: CoroutineScope,
     val scaffoldState: ScaffoldState,
-    private val resources: Resources,
     val snackbarManager: SnackBarManager,
     val navController: NavHostController,
 ) {
@@ -50,10 +48,16 @@ class WeatherAppState(
 
                 val message = messageList.first()
 
-                scaffoldState.snackbarHostState.showSnackbar(message.message, message.actionLabel)
-                snackbarManager.setMessageShown(message.id)
+                when(scaffoldState.snackbarHostState.showSnackbar(message)){
+                    SnackbarResult.Dismissed -> snackbarManager.setMessageShown(message.id)
+                    SnackbarResult.ActionPerformed -> snackbarManager.messageActionLabelClicked(message)
+                }
             }
         }
     }
 
+}
+
+suspend fun SnackbarHostState.showSnackbar(message: Message): SnackbarResult {
+    return this.showSnackbar(message.message, message.actionLabel)
 }
