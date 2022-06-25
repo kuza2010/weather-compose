@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Weather today</string>
 
+    <string name="general_undo_caps">UNDO</string>
+
     <string name="title_user_cities">Your cities</string>
 
     <string name="message_select_city">Choose your city</string>
+    <string name="message_city_removed">City %1$s removed</string>
 
     <!-- Error messages -->
     <string name="error_oops_error_message">Oops…Something went wrong</string>

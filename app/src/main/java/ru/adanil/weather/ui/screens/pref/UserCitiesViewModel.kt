@@ -1,6 +1,5 @@
 package ru.adanil.weather.ui.screens.pref
 
-import android.util.Log
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
@@ -9,7 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.adanil.weather.R
 import ru.adanil.weather.core.repository.CityRepository
+import ru.adanil.weather.core.service.ResourceProvider
 import ru.adanil.weather.model.City
 import ru.adanil.weather.model.Message
 import ru.adanil.weather.model.SnackBarManager
@@ -24,6 +25,7 @@ data class UserCitiesUiState(
 @HiltViewModel
 class UserCitiesViewModel @Inject constructor(
     private val cityRepository: CityRepository,
+    private val resourceProvider: ResourceProvider,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UserCitiesUiState())
@@ -69,7 +71,10 @@ class UserCitiesViewModel @Inject constructor(
 
     private fun prepareCityToDelete(cityForRemoval: City): Long {
         synchronized(this) {
-            val snackbarMessage = Message("City ... removed", "Undo")
+            val snackbarMessage = Message(
+                resourceProvider.string(R.string.message_city_removed, cityForRemoval.name),
+                resourceProvider.string(R.string.general_undo_caps),
+            )
             val newUIState = _uiState.updateAndGet { currentUIState ->
                 val newCities = currentUIState.cities.minus(cityForRemoval)
 

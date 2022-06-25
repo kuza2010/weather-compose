@@ -1,9 +1,7 @@
 package ru.adanil.weather
 
 import android.app.Application
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.SnackbarHost
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
@@ -33,7 +31,9 @@ fun WeatherApp(
             snackbarHost = {
                 SnackbarHost(
                     hostState = it,
-                    snackbar = { snackbarData -> WeatherSnackbar(snackbarData = snackbarData) }
+                    snackbar = { snackbarData ->
+                        WeatherSnackbar( snackbarData = snackbarData)
+                    }
                 )
             },
             scaffoldState = appState.scaffoldState
