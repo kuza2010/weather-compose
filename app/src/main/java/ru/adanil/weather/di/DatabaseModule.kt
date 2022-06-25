@@ -20,6 +20,7 @@ class DatabaseModule {
         return WeatherDatabase.getInstance(context)
     }
 
+    @Singleton
     @Provides
     fun provideCityDao(appDatabase: WeatherDatabase): CityDao {
         return appDatabase.cityDao()

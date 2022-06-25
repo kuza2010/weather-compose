@@ -2,12 +2,14 @@ package ru.adanil.weather.di
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.util.Log
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.adanil.weather.BuildConfig
+import ru.adanil.weather.core.service.ResourceProvider
 import ru.adanil.weather.util.ext.connectivityManager
 import java.io.IOException
 import java.util.*
@@ -34,6 +36,12 @@ class AppModule {
     @Provides
     fun provideConnectivityManager(@ApplicationContext appContext: Context): ConnectivityManager {
         return appContext.connectivityManager
+    }
+
+    @Singleton
+    @Provides
+    fun provideResourceProvider(@ApplicationContext appContext: Context): ResourceProvider {
+        return ResourceProvider(appContext)
     }
 
 }
