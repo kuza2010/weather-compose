@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 
 class ResourceProvider(private val appContext: Context) {
 
-    fun getString(@StringRes stringRes: Int): String {
+    fun string(@StringRes stringRes: Int): String {
         return appContext.getString(stringRes)
     }
 }

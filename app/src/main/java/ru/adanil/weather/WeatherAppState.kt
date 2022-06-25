@@ -49,9 +49,8 @@ class WeatherAppState(
                 }
 
                 val message = messageList.first()
-                val messageContent = resources.getString(message.messageId)
 
-                scaffoldState.snackbarHostState.showSnackbar(messageContent)
+                scaffoldState.snackbarHostState.showSnackbar(message.message, message.actionLabel)
                 snackbarManager.setMessageShown(message.id)
             }
         }
