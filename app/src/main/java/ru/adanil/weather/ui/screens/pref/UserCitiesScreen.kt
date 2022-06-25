@@ -161,7 +161,8 @@ fun CityCardContent(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 12.dp, top = 12.dp, end = 12.dp),
-        onClick = { /* do nothing */ }
+        onClick = { /* do nothing */ },
+        color = if(city.isSelected) WeatherTheme.color.primary else WeatherTheme.color.surface,
     ) {
         Text(
             maxLines = 1,

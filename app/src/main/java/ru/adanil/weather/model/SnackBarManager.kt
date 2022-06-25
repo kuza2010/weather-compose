@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import ru.adanil.weather.model.Message.Companion.empty
 import java.util.*
 
 
@@ -11,16 +12,20 @@ data class Message(
     val message: String,
     val actionLabel: String? = null,
     val id: Long = UUID.randomUUID().mostSignificantBits,
-)
+) {
+    companion object {
+        val empty = Message(message = "Oops...", id = 666)
+    }
+}
 
 
 object SnackBarManager {
 
     private val _messages: MutableStateFlow<List<Message>> = MutableStateFlow(emptyList())
-    private val _messagesWithAction: MutableStateFlow<List<Message>> = MutableStateFlow(emptyList())
+    private val _messagesWithAction: MutableStateFlow<Message> = MutableStateFlow(empty)
 
     val messages: StateFlow<List<Message>> get() = _messages.asStateFlow()
-    val messagesWithAction: StateFlow<List<Message>> get() = _messagesWithAction.asStateFlow()
+    val messagesWithAction: StateFlow<Message> get() = _messagesWithAction.asStateFlow()
 
 
     fun showMessage(message: Message) {
@@ -29,7 +34,7 @@ object SnackBarManager {
 
     fun messageActionLabelClicked(message: Message) {
         setMessageShown(message.id)
-        _messagesWithAction.update { it.plus(message) }
+        _messagesWithAction.update { message }
     }
 
 
@@ -39,10 +44,8 @@ object SnackBarManager {
         }
     }
 
-    fun serMessageActionPerformed(messageId: Long) {
-        _messagesWithAction.update { currentMessages ->
-            currentMessages.filterNot { it.id == messageId }
-        }
+    fun setMessageActionPerformed() {
+        _messagesWithAction.update { empty }
     }
 
 }
