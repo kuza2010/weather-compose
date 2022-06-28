@@ -35,21 +35,6 @@ class UserCitiesViewModel @Inject constructor(
         get() = _uiState
 
     init {
-        refresh()
-    }
-
-
-    fun deleteCity(city: City) {
-        ProcessLifecycleOwner.get().lifecycleScope
-            .launch {
-                val snackbarMessageId = prepareCityToDelete(city)
-                delay(4000)
-                checkCity(city, snackbarMessageId)
-                chumBucket.remove(snackbarMessageId)
-            }
-    }
-
-    private fun refresh() {
         viewModelScope.launch {
             cityRepository.getAll()
                 .collect { userCity ->
@@ -69,13 +54,25 @@ class UserCitiesViewModel @Inject constructor(
         }
     }
 
+
+    fun deleteCity(city: City) {
+        ProcessLifecycleOwner.get().lifecycleScope
+            .launch {
+                val snackbarMessageId = prepareCityToDelete(city)
+                delay(4000)
+                checkCity(city, snackbarMessageId)
+                chumBucket.remove(snackbarMessageId)
+            }
+    }
+
     private fun prepareCityToDelete(cityForRemoval: City): Long {
         synchronized(this) {
             val snackbarMessage = Message(
                 resourceProvider.string(R.string.message_city_removed, cityForRemoval.name),
                 resourceProvider.string(R.string.general_undo_caps),
             )
-            val newUIState = _uiState.updateAndGet { currentUIState ->
+            chumBucket[snackbarMessage.id] = cityForRemoval
+            _uiState.update { currentUIState ->
                 val newCities = currentUIState.cities.minus(cityForRemoval)
 
                 when (currentUIState.currentCity == cityForRemoval) {
@@ -88,9 +85,6 @@ class UserCitiesViewModel @Inject constructor(
                     )
                 }
             }
-
-            chumBucket[snackbarMessage.id] = cityForRemoval
-            _uiState.update { newUIState }
             SnackBarManager.showMessage(snackbarMessage)
 
             return snackbarMessage.id
