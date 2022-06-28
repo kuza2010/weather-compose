@@ -14,6 +14,17 @@ class CityRepository @Inject constructor(
     fun getAll(): Flow<List<City>> = cityDao.getAll()
         .map { cityList -> cityList.map { it.toDomain() } }
 
+    suspend fun selectCity(city: City): CityEntity? {
+        return cityDao.getById(city.id)
+            ?.takeIf { it.isSelected.not() }
+            ?.let {
+                // deselect current city
+                cityDao.getSelectedCity()?.let { cityDao.updateCity(it.copy(isSelected = false)) }
+                cityDao.updateCity(CityEntity(city.id, city.name, true))
+                cityDao.getById(city.id)
+            }
+    }
+
     suspend fun delete(city: City) {
         cityDao.deleteByIdUsers(city.id)
     }

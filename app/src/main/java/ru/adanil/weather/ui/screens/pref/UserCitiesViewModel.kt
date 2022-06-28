@@ -19,12 +19,12 @@ import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 
 data class UserCitiesUiState(
-    private val _cities: SortedSet<City> = sortedSetOf()
+    private val _cities: SortedSet<City> = sortedSetOf(),
+    val currentCity: City? = _cities.find { it.isSelected }
 ) {
     constructor(notSortedCities: Collection<City>) : this(notSortedCities.toSortedSet())
 
     val cities: List<City> = _cities.toList()
-    val currentCity: City? = cities.find { it.isSelected }
 }
 
 @HiltViewModel
@@ -67,6 +67,13 @@ class UserCitiesViewModel @Inject constructor(
                 chumBucket.remove(snackbarMessageId)
             }
     }
+
+    fun selectCity(city: City) {
+        viewModelScope.launch {
+            cityRepository.selectCity(city)
+        }
+    }
+
 
     private fun prepareCityToDelete(cityForRemoval: City): Long {
         synchronized(this) {

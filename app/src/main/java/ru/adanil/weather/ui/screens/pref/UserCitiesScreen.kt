@@ -74,7 +74,10 @@ fun UserCitiesScreen(
                     dismissState = dismissState,
                     modifier = Modifier.animateItemPlacement(
                         animationSpec = tween(durationMillis = 300)
-                    )
+                    ),
+                    onCityCardClicked = {
+                        viewModel.selectCity(city)
+                    }
                 )
             }
             item {
@@ -82,6 +85,7 @@ fun UserCitiesScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp),
+                    onClick = {/* do nothing */ }
                 ) {
                     WeatherIcon(
                         painter = rememberVectorPainter(Icons.Filled.AddCircle),
@@ -102,7 +106,8 @@ fun UserCitiesScreen(
 fun SwappableCityCard(
     city: City,
     modifier: Modifier,
-    dismissState: DismissState
+    dismissState: DismissState,
+    onCityCardClicked: () -> Unit
 ) {
     SwipeToDismiss(
         state = dismissState,
@@ -148,21 +153,22 @@ fun SwappableCityCard(
             }
         },
         dismissContent = {
-            CityCardContent(city)
+            CityCardContent(city, onCityCardClicked)
         }
     )
 }
 
 @Composable
 fun CityCardContent(
-    city: City
+    city: City,
+    onCityCardClicked: () -> Unit
 ) {
     WeatherCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 12.dp, top = 12.dp, end = 12.dp),
-        onClick = { /* do nothing */ },
-        color = if(city.isSelected) WeatherTheme.color.primary else WeatherTheme.color.surface,
+        onClick = { onCityCardClicked.invoke() },
+        color = if (city.isSelected) WeatherTheme.color.primary else WeatherTheme.color.surface,
     ) {
         Text(
             maxLines = 1,
