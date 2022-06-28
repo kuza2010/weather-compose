@@ -14,13 +14,18 @@ import ru.adanil.weather.core.service.ResourceProvider
 import ru.adanil.weather.model.City
 import ru.adanil.weather.model.Message
 import ru.adanil.weather.model.SnackBarManager
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 
 data class UserCitiesUiState(
-    val cities: List<City> = listOf(),
+    private val _cities: SortedSet<City> = sortedSetOf()
+) {
+    constructor(notSortedCities: Collection<City>) : this(notSortedCities.toSortedSet())
+
+    val cities: List<City> = _cities.toList()
     val currentCity: City? = cities.find { it.isSelected }
-)
+}
 
 @HiltViewModel
 class UserCitiesViewModel @Inject constructor(
@@ -37,9 +42,7 @@ class UserCitiesViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             cityRepository.getAll()
-                .collect { userCity ->
-                    _uiState.update { current -> current.copy(cities = userCity) }
-                }
+                .collect { userCity -> _uiState.update { UserCitiesUiState(userCity) } }
         }
         viewModelScope.launch {
             SnackBarManager.messagesWithAction
@@ -47,7 +50,7 @@ class UserCitiesViewModel @Inject constructor(
                 .collect { message ->
                     chumBucket.remove(message.id)?.let { cityFromBucket ->
                         _uiState.update { currentUIState ->
-                            currentUIState.copy(cities = currentUIState.cities.plus(cityFromBucket))
+                            UserCitiesUiState(currentUIState.cities.plus(cityFromBucket))
                         }
                     }
                 }
@@ -72,20 +75,10 @@ class UserCitiesViewModel @Inject constructor(
                 resourceProvider.string(R.string.general_undo_caps),
             )
             chumBucket[snackbarMessage.id] = cityForRemoval
-            _uiState.update { currentUIState ->
-                val newCities = currentUIState.cities.minus(cityForRemoval)
-
-                when (currentUIState.currentCity == cityForRemoval) {
-                    true -> currentUIState.copy(
-                        cities = newCities,
-                        currentCity = newCities.firstOrNull()
-                    )
-                    false -> currentUIState.copy(
-                        cities = newCities
-                    )
-                }
-            }
             SnackBarManager.showMessage(snackbarMessage)
+            _uiState.update { currentUIState ->
+                UserCitiesUiState(currentUIState.cities.minus(cityForRemoval))
+            }
 
             return snackbarMessage.id
         }
