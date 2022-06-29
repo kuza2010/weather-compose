@@ -16,6 +16,7 @@ import ru.adanil.weather.model.Message
 import ru.adanil.weather.model.SnackBarManager
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 data class UserCitiesUiState(
@@ -35,6 +36,7 @@ class UserCitiesViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(UserCitiesUiState())
     private val chumBucket = ConcurrentHashMap<Long, City>()
+    private val busy = AtomicBoolean(false)
 
     val uiState: StateFlow<UserCitiesUiState>
         get() = _uiState
@@ -48,6 +50,7 @@ class UserCitiesViewModel @Inject constructor(
             SnackBarManager.messagesWithAction
                 .filterNot { it == Message.empty }
                 .collect { message ->
+                    busy.compareAndSet(true, false)
                     chumBucket.remove(message.id)?.let { cityFromBucket ->
                         _uiState.update { currentUIState ->
                             UserCitiesUiState(currentUIState.cities.plus(cityFromBucket))
@@ -58,14 +61,19 @@ class UserCitiesViewModel @Inject constructor(
     }
 
 
-    fun deleteCity(city: City) {
-        ProcessLifecycleOwner.get().lifecycleScope
-            .launch {
-                val snackbarMessageId = prepareCityToDelete(city)
-                delay(4000)
-                checkCity(city, snackbarMessageId)
-                chumBucket.remove(snackbarMessageId)
-            }
+    fun deleteCity(city: City): Boolean {
+        if (busy.compareAndSet(false, true)) {
+            ProcessLifecycleOwner.get().lifecycleScope
+                .launch {
+                    val snackbarMessageId = prepareCityToDelete(city)
+                    delay(4000)
+                    checkCity(city, snackbarMessageId)
+                    chumBucket.remove(snackbarMessageId)
+                    busy.set(false)
+                }
+            return true
+        }
+        return false
     }
 
     fun selectCity(city: City) {

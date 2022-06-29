@@ -64,8 +64,9 @@ fun UserCitiesScreen(
                     confirmStateChange = {
                         if (it == DismissValue.DismissedToStart) {
                             viewModel.deleteCity(city)
+                        } else {
+                         true
                         }
-                        true
                     }
                 )
 
@@ -112,7 +113,7 @@ fun SwappableCityCard(
     SwipeToDismiss(
         state = dismissState,
         modifier = modifier,
-        dismissThresholds = { FractionalThreshold(0.7f) },
+        dismissThresholds = { FractionalThreshold(0.3f) },
         directions = setOf(DismissDirection.EndToStart),
         background = {
             val direction = dismissState.dismissDirection ?: return@SwipeToDismiss
