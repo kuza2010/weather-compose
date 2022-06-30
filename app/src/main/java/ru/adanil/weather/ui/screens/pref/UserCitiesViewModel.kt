@@ -52,9 +52,7 @@ class UserCitiesViewModel @Inject constructor(
                 .collect { message ->
                     busy.compareAndSet(true, false)
                     chumBucket.remove(message.id)?.let { cityFromBucket ->
-                        _uiState.update { currentUIState ->
-                            UserCitiesUiState(currentUIState.cities.plus(cityFromBucket))
-                        }
+                        cityRepository.insertCity(cityFromBucket)
                     }
                 }
         }
@@ -65,9 +63,8 @@ class UserCitiesViewModel @Inject constructor(
         if (busy.compareAndSet(false, true)) {
             ProcessLifecycleOwner.get().lifecycleScope
                 .launch {
-                    val snackbarMessageId = prepareCityToDelete(city)
+                    val snackbarMessageId = deleteCityWithMessage(city)
                     delay(4000)
-                    checkCity(city, snackbarMessageId)
                     chumBucket.remove(snackbarMessageId)
                     busy.set(false)
                 }
@@ -83,26 +80,16 @@ class UserCitiesViewModel @Inject constructor(
     }
 
 
-    private fun prepareCityToDelete(cityForRemoval: City): Long {
-        synchronized(this) {
-            val snackbarMessage = Message(
-                resourceProvider.string(R.string.message_city_removed, cityForRemoval.name),
-                resourceProvider.string(R.string.general_undo_caps),
-            )
-            chumBucket[snackbarMessage.id] = cityForRemoval
-            SnackBarManager.showMessage(snackbarMessage)
-            _uiState.update { currentUIState ->
-                UserCitiesUiState(currentUIState.cities.minus(cityForRemoval))
-            }
+    private suspend fun deleteCityWithMessage(cityForRemoval: City): Long {
+        val snackbarMessage = Message(
+            resourceProvider.string(R.string.message_city_removed, cityForRemoval.name),
+            resourceProvider.string(R.string.general_undo_caps),
+        )
+        chumBucket[snackbarMessage.id] = cityForRemoval
+        SnackBarManager.showMessage(snackbarMessage)
+        cityRepository.delete(cityForRemoval)
 
-            return snackbarMessage.id
-        }
+        return snackbarMessage.id
     }
 
-    private suspend fun checkCity(cityForCheck: City, snackbarMessageId: Long) {
-        if (chumBucket.containsKey(snackbarMessageId)) {
-            chumBucket.remove(snackbarMessageId)
-            cityRepository.delete(cityForCheck)
-        }
-    }
 }

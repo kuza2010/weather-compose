@@ -20,7 +20,7 @@ interface CityDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg cityEntity: CityEntity)
+    suspend fun insert(vararg cityEntity: CityEntity)
 
 
     @Update(onConflict = OnConflictStrategy.ABORT)

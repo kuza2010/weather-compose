@@ -14,6 +14,11 @@ class CityRepository @Inject constructor(
     fun getAll(): Flow<List<City>> = cityDao.getAll()
         .map { cityList -> cityList.map { it.toDomain() } }
 
+    suspend fun insertCity(vararg cities: City) {
+        val entities = cities.map { city -> CityEntity(city.id, city.name, true) }
+        cityDao.insert(*entities.toTypedArray())
+    }
+
     suspend fun selectCity(city: City): CityEntity? {
         return cityDao.getById(city.id)
             ?.takeIf { it.isSelected.not() }
