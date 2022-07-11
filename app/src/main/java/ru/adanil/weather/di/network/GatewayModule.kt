@@ -1,4 +1,4 @@
-package ru.adanil.weather.di
+package ru.adanil.weather.di.network
 
 import dagger.Module
 import dagger.Provides
@@ -7,12 +7,14 @@ import dagger.hilt.components.SingletonComponent
 import ru.adanil.weather.core.gateway.HealthCheckGateway
 import ru.adanil.weather.core.gateway.RetrofitFactory
 import java.util.*
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class GatewayModule {
 
     @Provides
+    @Singleton
     internal fun provideHealthCheckGateway(
         properties: Properties,
         factory: RetrofitFactory

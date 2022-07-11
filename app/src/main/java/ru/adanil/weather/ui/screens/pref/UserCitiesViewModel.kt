@@ -1,10 +1,9 @@
 package ru.adanil.weather.ui.screens.pref
 
-import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -30,6 +29,7 @@ data class UserCitiesUiState(
 
 @HiltViewModel
 class UserCitiesViewModel @Inject constructor(
+    private val coroutineScope: CoroutineScope,
     private val cityRepository: CityRepository,
     private val resourceProvider: ResourceProvider,
 ) : ViewModel() {
@@ -61,13 +61,12 @@ class UserCitiesViewModel @Inject constructor(
 
     fun deleteCity(city: City): Boolean {
         if (busy.compareAndSet(false, true)) {
-            ProcessLifecycleOwner.get().lifecycleScope
-                .launch {
-                    val snackbarMessageId = deleteCityWithMessage(city)
-                    delay(4000)
-                    chumBucket.remove(snackbarMessageId)
-                    busy.set(false)
-                }
+            coroutineScope.launch {
+                val snackbarMessageId = deleteCityWithMessage(city)
+                delay(4000)
+                chumBucket.remove(snackbarMessageId)
+                busy.set(false)
+            }
             return true
         }
         return false
