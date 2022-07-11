@@ -1,5 +1,6 @@
 package ru.adanil.weather.ui.components
 
+import android.content.res.Configuration
 import androidx.annotation.StringRes
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -11,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import ru.adanil.weather.R
 import ru.adanil.weather.ui.theme.WeatherTheme
 
 @Composable
@@ -36,5 +39,19 @@ fun WeatherTopAppBar(
             style = WeatherTheme.typography.h5,
             color = contentColorFor(WeatherTheme.color.background),
         )
+    }
+}
+
+
+@Preview(name = "WeatherTopAppBar Light Mode")
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    name = "WeatherTopAppBar Dark Mode"
+)
+@Composable
+fun PreviewWeatherTopAppBar() {
+    WeatherTheme() {
+        WeatherTopAppBar(R.string.message_city_removed) {}
     }
 }

@@ -28,13 +28,14 @@ import ru.adanil.weather.model.City
 import ru.adanil.weather.ui.components.WeatherCard
 import ru.adanil.weather.ui.components.WeatherIcon
 import ru.adanil.weather.ui.components.WeatherTopAppBar
+import ru.adanil.weather.ui.screens.WeatherScreens
 import ru.adanil.weather.ui.theme.Shapes
 import ru.adanil.weather.ui.theme.WeatherTheme
 
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun UserCitiesScreen(
+fun CitiesBagScreen(
     navController: NavController,
     viewModel: UserCitiesViewModel,
 ) {
@@ -75,7 +76,7 @@ fun UserCitiesScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp),
-                    onClick = {/* do nothing */ }
+                    onClick = {navController.navigate(WeatherScreens.SearchCitiesScreen.route)}
                 ) {
                     WeatherIcon(
                         painter = rememberVectorPainter(Icons.Filled.AddCircle),
