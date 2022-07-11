@@ -1,29 +1,40 @@
 package ru.adanil.weather.ui.components
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.*
+import androidx.annotation.StringRes
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.contentColorFor
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import ru.adanil.weather.ui.theme.WeatherTheme
 
 @Composable
 fun WeatherTopAppBar(
-    modifier: Modifier = Modifier,
-    backgroundColor: Color = WeatherTheme.color.primarySurface,
-    contentColor: Color = contentColorFor(backgroundColor),
-    elevation: Dp = AppBarDefaults.TopAppBarElevation,
-    contentPadding: PaddingValues = AppBarDefaults.ContentPadding,
-    content: @Composable RowScope.() -> Unit
+    @StringRes title: Int,
+    onNavigationIconClickListener: () -> Unit,
 ) {
     TopAppBar(
-        modifier = modifier,
-        backgroundColor = backgroundColor,
-        contentColor = contentColor,
-        elevation = elevation,
-        contentPadding = contentPadding,
-        content = content,
-    )
+        backgroundColor = WeatherTheme.color.background
+    ) {
+        IconButton(
+            onClick = { onNavigationIconClickListener.invoke() }
+        ) {
+            WeatherIconMedium(
+                tint = contentColorFor(WeatherTheme.color.background),
+                painter = rememberVectorPainter(Icons.Filled.ArrowBack),
+                contentDescription = "Navigation icon for ${stringResource(title)}"
+            )
+        }
+        Text(
+            text = stringResource(title),
+            overflow = TextOverflow.Ellipsis,
+            style = WeatherTheme.typography.h5,
+            color = contentColorFor(WeatherTheme.color.background),
+        )
+    }
 }

@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -29,7 +27,6 @@ import ru.adanil.weather.R
 import ru.adanil.weather.model.City
 import ru.adanil.weather.ui.components.WeatherCard
 import ru.adanil.weather.ui.components.WeatherIcon
-import ru.adanil.weather.ui.components.WeatherIconMedium
 import ru.adanil.weather.ui.components.WeatherTopAppBar
 import ru.adanil.weather.ui.theme.Shapes
 import ru.adanil.weather.ui.theme.WeatherTheme
@@ -44,18 +41,10 @@ fun UserCitiesScreen(
     val uiState: UserCitiesUiState by viewModel.uiState.collectAsState()
 
     Column() {
-        WeatherTopAppBar() {
-            IconButton(onClick = { navController.popBackStack() }) {
-                WeatherIconMedium(
-                    contentDescription = "Go back",
-                    painter = rememberVectorPainter(Icons.Filled.ArrowBack)
-                )
-            }
-            Text(
-                style = WeatherTheme.typography.h5,
-                text = stringResource(id = R.string.title_user_cities)
-            )
-        }
+        WeatherTopAppBar(
+            title = R.string.title_user_cities,
+            onNavigationIconClickListener = { navController.popBackStack() }
+        )
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
         ) {
@@ -65,7 +54,7 @@ fun UserCitiesScreen(
                         if (it == DismissValue.DismissedToStart) {
                             viewModel.deleteCity(city)
                         } else {
-                         true
+                            true
                         }
                     }
                 )
