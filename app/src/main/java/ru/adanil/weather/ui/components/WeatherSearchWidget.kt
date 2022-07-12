@@ -2,14 +2,19 @@ package ru.adanil.weather.ui.components
 
 import android.content.res.Configuration
 import androidx.annotation.StringRes
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -27,12 +32,16 @@ fun WeatherSearchWidget(
     onSearchIconClick: ((query: String) -> Unit)? = null,
     onSearchQueryChange: ((query: String) -> Unit)? = null,
 ) {
+    val focusRequester = remember { FocusRequester() }
     TopAppBar(
         backgroundColor = WeatherTheme.color.background
     ) {
         TextField(
             singleLine = true,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusable(true)
+                .focusRequester(focusRequester),
             textStyle = WeatherTheme.typography.h6,
             placeholder = {
                 Text(
@@ -65,6 +74,10 @@ fun WeatherSearchWidget(
             value = searchQuery,
             onValueChange = { onSearchQueryChange?.invoke(it) }
         )
+    }
+    
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 }
 

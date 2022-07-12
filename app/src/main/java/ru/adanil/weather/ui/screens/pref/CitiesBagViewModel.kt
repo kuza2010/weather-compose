@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
+
 data class UserCitiesUiState(
     private val _cities: SortedSet<City> = sortedSetOf(),
     val currentCity: City? = _cities.find { it.isSelected }
@@ -31,6 +32,7 @@ data class UserCitiesUiState(
         _cities.toList()
     }
 }
+
 
 @HiltViewModel
 class UserCitiesViewModel @Inject constructor(
