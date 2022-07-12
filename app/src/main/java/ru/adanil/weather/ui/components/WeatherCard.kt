@@ -42,6 +42,7 @@ fun WeatherCard(
         shape = shape,
         color = color,
         border = border,
+        content = content,
         enabled = enabled,
         modifier = modifier,
         elevation = elevation,
@@ -49,8 +50,6 @@ fun WeatherCard(
         contentColor = contentColor,
         onClickLabel = onClickLabel,
         onClick = { onClick.invoke() },
-        interactionSource = interactionSource,
-    ) {
-        content()
-    }
+        interactionSource = interactionSource
+    )
 }

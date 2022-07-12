@@ -12,6 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import ru.adanil.weather.R
 import ru.adanil.weather.ui.theme.WeatherTheme
@@ -30,7 +33,7 @@ fun WeatherSearchWidget(
         TextField(
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
-            textStyle = WeatherTheme.typography.h5,
+            textStyle = WeatherTheme.typography.h6,
             placeholder = {
                 Text(
                     text = stringResource(placeholder),
@@ -75,6 +78,6 @@ fun WeatherSearchWidget(
 @Composable
 fun PreviewOfflineActivity() {
     WeatherTheme() {
-        WeatherSearchWidget("", R.string.placeholder_city_search)
+        WeatherSearchWidget("hello", R.string.placeholder_city_search)
     }
 }

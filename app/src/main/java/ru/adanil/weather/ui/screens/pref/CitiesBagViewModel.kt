@@ -5,7 +5,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.adanil.weather.R
 import ru.adanil.weather.core.repository.CityRepository
@@ -24,7 +27,9 @@ data class UserCitiesUiState(
 ) {
     constructor(notSortedCities: Collection<City>) : this(notSortedCities.toSortedSet())
 
-    val cities: List<City> = _cities.toList()
+    val cities: List<City> by lazy {
+        _cities.toList()
+    }
 }
 
 @HiltViewModel

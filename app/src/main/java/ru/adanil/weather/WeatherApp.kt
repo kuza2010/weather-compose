@@ -17,7 +17,7 @@ import ru.adanil.weather.ui.screens.home.HomeScreen
 import ru.adanil.weather.ui.screens.home.HomeScreenViewModel
 import ru.adanil.weather.ui.screens.offline.OfflineScreen
 import ru.adanil.weather.ui.screens.pref.CitiesBagScreen
-import ru.adanil.weather.ui.screens.pref.SearchCityScreen
+import ru.adanil.weather.ui.screens.pref.searching.SearchCityScreen
 import ru.adanil.weather.ui.screens.pref.UserCitiesViewModel
 import ru.adanil.weather.ui.theme.WeatherTheme
 
