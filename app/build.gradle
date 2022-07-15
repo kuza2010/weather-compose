@@ -75,6 +75,8 @@ dependencies {
     // network
     implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    // json
+    implementation("com.google.code.gson:gson:$gson_version")
 
     // hilt
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
