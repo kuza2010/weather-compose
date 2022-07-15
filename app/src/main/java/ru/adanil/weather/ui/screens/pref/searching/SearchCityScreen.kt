@@ -2,7 +2,6 @@ package ru.adanil.weather.ui.screens.pref.searching
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.adanil.weather.R
@@ -18,8 +17,8 @@ fun SearchCityScreen(
     WeatherSearchWidget(
         searchQuery = searchQuery,
         placeholder = R.string.placeholder_city_search,
+        onSearchIconClick = { viewModel.searchCity() },
         onBackIconClick = { navController.popBackStack() },
-        onSearchIconClick = {},
         onSearchQueryChange = { viewModel.updateSearchQuery(it) },
     )
 }
