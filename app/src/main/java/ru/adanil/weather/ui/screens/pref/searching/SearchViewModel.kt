@@ -24,27 +24,28 @@ class SearchViewModel @Inject constructor(
 
 
     fun updateSearchQuery(value: String) {
-        _searchQuery.value = value
-        runCitySearch()
+        if (_searchQuery.value != value) {
+            _searchQuery.value = value
+            runCitySearch(value)
+        }
     }
 
     fun searchCity() {
-        runCitySearch()
+        runCitySearch(_searchQuery.value)
     }
 
 
-    private fun runCitySearch() {
+    private fun runCitySearch(query: String) {
         searchJob?.cancel()
-        val searchQuery = _searchQuery.value
 
-        when (searchQuery.isBlank()) {
+        when (query.isBlank()) {
             true -> {
                 // clean ui
             }
             false -> {
                 searchJob = viewModelScope.launch {
                     delay(350)
-                    val result = geocodingGateway.findCityByName(searchQuery)
+                    val result = geocodingGateway.findCityByName(query)
                     Log.e("TESTIN", "searchCity: $result")
                 }
             }
