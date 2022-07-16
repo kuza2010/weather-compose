@@ -1,15 +1,11 @@
 package ru.adanil.weather.ui.screens.pref.searching
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.adanil.weather.core.gateway.GeocodingGateway
 import ru.adanil.weather.model.CityResponse
@@ -17,8 +13,15 @@ import javax.inject.Inject
 
 
 data class SearchUiState(
+    val searchQuery: String,
     val citiesThatMatchCriteria: List<CityResponse>
-)
+) {
+    val hasResult = searchQuery.isEmpty() || searchQuery.isNotBlank() && citiesThatMatchCriteria.isNotEmpty()
+
+    companion object {
+        fun empty() = SearchUiState("", listOf())
+    }
+}
 
 
 @HiltViewModel
@@ -27,36 +30,42 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var searchJob: Job? = null
-    private val _searchQuery = mutableStateOf("")
-    private val _uiState = MutableStateFlow(SearchUiState(listOf()))
+    private val _uiState = MutableStateFlow(SearchUiState.empty())
 
     val uiState: StateFlow<SearchUiState>
         get() = _uiState
-    val searchQuery: MutableState<String>
-        get() = _searchQuery
+
+
+    init {
+        viewModelScope.launch {
+            _uiState.map { it.searchQuery }
+                .distinctUntilChanged()
+                .collect { query -> runCitySearch(query) }
+        }
+    }
 
 
     fun updateSearchQuery(value: String) {
-        if (_searchQuery.value != value) {
-            _searchQuery.value = value
-            runCitySearch(value)
+        if (_uiState.value.searchQuery != value) {
+            _uiState.update { it.copy(searchQuery = value) }
         }
     }
 
     fun searchCity() {
-        runCitySearch(_searchQuery.value)
+        runCitySearch(_uiState.value.searchQuery)
     }
 
 
     private fun runCitySearch(query: String) {
         searchJob?.cancel()
-
-        when (query.isBlank()) {
-            true -> _uiState.update { SearchUiState(listOf()) }
-            false -> searchJob = viewModelScope.launch {
-                delay(500)
-                val result = geocodingGateway.findCityByName(query)
-                _uiState.update { SearchUiState(result) }
+        searchJob = viewModelScope.launch {
+            when (query.isBlank()) {
+                true -> _uiState.update { SearchUiState.empty() }
+                false -> {
+                    delay(500)
+                    val result = geocodingGateway.findCityByName(query)
+                    _uiState.update { it.copy(citiesThatMatchCriteria = result) }
+                }
             }
         }
     }

@@ -11,7 +11,8 @@
     <string name="message_select_city">Choose your city</string>
     <string name="message_city_removed">City %1$s removed</string>
 
-    <string name="placeholder_city_search">Enter city name…</string>
+    <string name="search_no_result_emoji">No result found 🤷</string>
+    <string name="search_placeholder_city_search">Enter city name or country code…</string>
 
     <!-- Error messages -->
     <string name="error_oops_error_message">Oops…Something went wrong</string>

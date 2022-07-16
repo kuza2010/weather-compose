@@ -9,7 +9,7 @@ interface GeocodingGateway {
     @GET("direct")
     suspend fun findCityByName(
         @Query("q") cityIdentifier: String, // city name, state code, country code
-        @Query("limit") limit: Int = 5,
+        @Query("limit") limit: Int = 20,
     ): List<CityResponse>
 
 }

@@ -2,7 +2,6 @@ package ru.adanil.weather.ui.components
 
 import android.content.res.Configuration
 import androidx.annotation.StringRes
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -17,9 +16,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import ru.adanil.weather.R
 import ru.adanil.weather.ui.theme.WeatherTheme
@@ -40,7 +36,6 @@ fun WeatherSearchWidget(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .focusable(true)
                 .focusRequester(focusRequester),
             textStyle = WeatherTheme.typography.h6,
             placeholder = {
@@ -78,6 +73,7 @@ fun WeatherSearchWidget(
     
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
+        focusRequester.freeFocus()
     }
 }
 
@@ -91,6 +87,6 @@ fun WeatherSearchWidget(
 @Composable
 fun PreviewOfflineActivity() {
     WeatherTheme() {
-        WeatherSearchWidget("hello", R.string.placeholder_city_search)
+        WeatherSearchWidget("hello", R.string.search_placeholder_city_search)
     }
 }
