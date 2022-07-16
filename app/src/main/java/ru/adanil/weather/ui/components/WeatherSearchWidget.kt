@@ -72,7 +72,7 @@ fun WeatherSearchWidget(
                 }
             },
             value = searchQuery,
-            onValueChange = { onSearchQueryChange?.invoke(it.trim()) }
+            onValueChange = { onSearchQueryChange?.invoke(it) }
         )
     }
     
