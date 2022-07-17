@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.adanil.weather.core.repository.CityDao
+import ru.adanil.weather.core.repository.CountryDao
 import ru.adanil.weather.core.repository.WeatherDatabase
 import javax.inject.Singleton
 
@@ -24,6 +25,12 @@ class DatabaseModule {
     @Provides
     fun provideCityDao(appDatabase: WeatherDatabase): CityDao {
         return appDatabase.cityDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideCountryDao(appDatabase: WeatherDatabase): CountryDao {
+        return appDatabase.countryDao()
     }
 
 }

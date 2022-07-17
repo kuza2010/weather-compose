@@ -7,12 +7,15 @@ import androidx.room.RoomDatabase
 
 
 @Database(
-    entities = [CityEntity::class],
+    entities = [CountryEntity::class, CityEntity::class],
+    exportSchema = true,
     version = 1
 )
 abstract class WeatherDatabase : RoomDatabase() {
 
     abstract fun cityDao(): CityDao
+
+    abstract fun countryDao(): CountryDao
 
     companion object {
 
@@ -27,7 +30,7 @@ abstract class WeatherDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): WeatherDatabase {
             return Room.databaseBuilder(context, WeatherDatabase::class.java, "weather_db")
-                .addMigrations()
+                .createFromAsset("database/country.db")
                 .build()
         }
     }
