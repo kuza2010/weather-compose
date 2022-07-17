@@ -8,6 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.adanil.weather.core.gateway.GeocodingGateway
+import ru.adanil.weather.core.service.search.SearchCityService
 import ru.adanil.weather.model.CityResponse
 import javax.inject.Inject
 
@@ -26,6 +27,7 @@ data class SearchUiState(
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
+    private val searchCityService: SearchCityService,
     private val geocodingGateway: GeocodingGateway,
 ) : ViewModel() {
 
