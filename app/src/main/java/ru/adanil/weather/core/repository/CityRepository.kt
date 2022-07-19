@@ -31,7 +31,7 @@ class CityRepository @Inject constructor(
     }
 
     suspend fun delete(city: City) {
-        cityDao.deleteByIdUsers(city.id)
+        cityDao.deleteCity(city.toEntity())
     }
 
 }

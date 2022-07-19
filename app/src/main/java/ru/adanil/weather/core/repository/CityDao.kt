@@ -13,10 +13,14 @@ interface CityDao {
     fun getAll(): Flow<List<CityEntity>>
 
     @Query("DELETE FROM cities WHERE id = :id")
-    suspend fun deleteByIdUsers(id: String)
+    suspend fun deleteByCityId(id: String)
 
     @Query("SELECT * FROM cities WHERE is_selected = 1")
     suspend fun getSelectedCity(): CityEntity?
+
+
+    @Delete
+    fun deleteCity(vararg users: CityEntity)
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
