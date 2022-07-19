@@ -7,10 +7,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.adanil.weather.core.service.connectivity.ConnectionStatus
 import ru.adanil.weather.core.service.connectivity.ConnectivityObserverService
-import ru.adanil.weather.core.repository.CityDao
-import ru.adanil.weather.core.repository.CityEntity
 import ru.adanil.weather.core.repository.CityRepository
-import ru.adanil.weather.model.City
+import ru.adanil.weather.model.domain.City
 import javax.inject.Inject
 
 

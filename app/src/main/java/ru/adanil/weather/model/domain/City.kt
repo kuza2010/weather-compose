@@ -1,4 +1,4 @@
-package ru.adanil.weather.model
+package ru.adanil.weather.model.domain
 
 import ru.adanil.weather.core.repository.CityEntity
 

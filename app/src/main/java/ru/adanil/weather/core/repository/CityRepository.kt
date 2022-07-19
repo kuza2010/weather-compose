@@ -2,7 +2,7 @@ package ru.adanil.weather.core.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import ru.adanil.weather.model.City
+import ru.adanil.weather.model.domain.City
 import javax.inject.Inject
 import javax.inject.Singleton
 

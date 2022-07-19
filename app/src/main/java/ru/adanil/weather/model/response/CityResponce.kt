@@ -1,4 +1,4 @@
-package ru.adanil.weather.model
+package ru.adanil.weather.model.response
 
 import com.google.gson.annotations.SerializedName
 

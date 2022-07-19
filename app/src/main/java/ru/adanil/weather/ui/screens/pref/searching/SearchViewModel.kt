@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.adanil.weather.core.gateway.GeocodingGateway
 import ru.adanil.weather.core.service.search.SearchCityService
-import ru.adanil.weather.model.CityResponse
+import ru.adanil.weather.model.response.CityResponse
 import javax.inject.Inject
 
 

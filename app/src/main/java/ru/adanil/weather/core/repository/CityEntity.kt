@@ -3,7 +3,7 @@ package ru.adanil.weather.core.repository
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ru.adanil.weather.model.City
+import ru.adanil.weather.model.domain.City
 
 @Entity(tableName = "cities")
 data class CityEntity(

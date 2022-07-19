@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import ru.adanil.weather.R
 import ru.adanil.weather.core.repository.CityRepository
 import ru.adanil.weather.core.service.ResourceProvider
-import ru.adanil.weather.model.City
+import ru.adanil.weather.model.domain.City
 import ru.adanil.weather.ui.Message
 import ru.adanil.weather.ui.SnackBarManager
 import java.util.*

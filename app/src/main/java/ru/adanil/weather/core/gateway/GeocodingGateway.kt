@@ -2,7 +2,7 @@ package ru.adanil.weather.core.gateway
 
 import retrofit2.http.GET
 import retrofit2.http.Query
-import ru.adanil.weather.model.CityResponse
+import ru.adanil.weather.model.response.CityResponse
 
 interface GeocodingGateway {
 

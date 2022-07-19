@@ -17,10 +17,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ru.adanil.weather.R
 import ru.adanil.weather.core.service.connectivity.ConnectionStatus
-import ru.adanil.weather.model.City
+import ru.adanil.weather.model.domain.City
 import ru.adanil.weather.ui.components.ConnectivityStatus
 import ru.adanil.weather.ui.components.WeatherIconMedium
 import ru.adanil.weather.ui.theme.WeatherTheme
