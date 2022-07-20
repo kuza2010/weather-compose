@@ -7,5 +7,5 @@ data class CityResponse(
     @SerializedName("lat") val latitude: Double,
     @SerializedName("lon") val longitude: Double,
     @SerializedName("country") val countryCode: String,
-    @SerializedName("local_names") val localNames: Map<String, String>,
+    @SerializedName("local_names") val localNames: Map<String, String>?,
 )

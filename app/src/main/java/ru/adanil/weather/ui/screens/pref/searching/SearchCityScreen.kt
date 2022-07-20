@@ -39,7 +39,7 @@ fun SearchCityScreen(
         LazyColumn(
             modifier = Modifier.fillMaxWidth()
         ) {
-            items(uiState.citiesThatMatchCriteria, { "${it.latitude}-${it.longitude}" }) { city ->
+            items(uiState.citiesThatMatchCriteria, { it.id }) { city ->
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -48,9 +48,12 @@ fun SearchCityScreen(
                             indication = rememberRipple(),
                             onClick = { /*do nothing */ }
                         )
-                        .padding(start = 12.dp, top = 12.dp, end = 12.dp)
+                        .padding(start = 12.dp)
                 ) {
-                    Text(text = city.name)
+                    Column() {
+                        Text(text = city.name)
+                        Text(text = city.country.name)
+                    }
                 }
             }
 

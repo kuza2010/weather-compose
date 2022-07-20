@@ -12,11 +12,19 @@ class CityRepository @Inject constructor(
 ) {
 
     fun getAll(): Flow<List<City>> = cityDao.getAll()
-        .map { cityList -> cityList.map { it.toDomain() } }
+        .map { cityList ->
+            cityList.toList()
+                .map { (city, country) -> city.toDomain(country) }
+        }
 
     suspend fun insertCity(vararg cities: City) {
-        val entities = cities.map { city -> CityEntity(city.id, city.name, true) }
+        val entities = cities.map { it.toEntity() }
         cityDao.insert(*entities.toTypedArray())
+    }
+
+    suspend fun getByCityIds(vararg cityIds: String): List<City> {
+        return cityDao.getByCityIds(*cityIds)
+            .map { (city, country) -> city.toDomain(country) }
     }
 
     suspend fun selectCity(city: City): CityEntity? {
@@ -25,7 +33,7 @@ class CityRepository @Inject constructor(
             ?.let {
                 // deselect current city
                 cityDao.getSelectedCity()?.let { cityDao.updateCity(it.copy(isSelected = false)) }
-                cityDao.updateCity(CityEntity(city.id, city.name, true))
+                cityDao.updateCity(city.copy(isSelected = true).toEntity())
                 cityDao.getById(city.id)
             }
     }

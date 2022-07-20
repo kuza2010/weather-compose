@@ -6,7 +6,7 @@ import androidx.room.Query
 @Dao
 interface CountryDao {
 
-    @Query("SELECT * FROM country WHERE iso2 = :isoCode or iso3 = :isoCode")
-    suspend fun getByIso(isoCode: String): CountryEntity?
+    @Query("SELECT * FROM country WHERE iso2 IN (:isoCodes)")
+    suspend fun getByIso2Codes(isoCodes: List<String>): List<CountryEntity>
 
 }

@@ -7,17 +7,17 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.adanil.weather.core.gateway.GeocodingGateway
 import ru.adanil.weather.core.service.search.SearchCityService
-import ru.adanil.weather.model.response.CityResponse
+import ru.adanil.weather.model.domain.City
 import javax.inject.Inject
 
 
 data class SearchUiState(
     val searchQuery: String,
-    val citiesThatMatchCriteria: List<CityResponse>
+    val citiesThatMatchCriteria: List<City>
 ) {
-    val hasResult = searchQuery.isEmpty() || searchQuery.isNotBlank() && citiesThatMatchCriteria.isNotEmpty()
+    val hasResult =
+        searchQuery.isEmpty() || searchQuery.isNotBlank() && citiesThatMatchCriteria.isNotEmpty()
 
     companion object {
         fun empty() = SearchUiState("", listOf())
@@ -28,7 +28,6 @@ data class SearchUiState(
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchCityService: SearchCityService,
-    private val geocodingGateway: GeocodingGateway,
 ) : ViewModel() {
 
     private var searchJob: Job? = null
@@ -65,7 +64,7 @@ class SearchViewModel @Inject constructor(
                 true -> _uiState.update { SearchUiState.empty() }
                 false -> {
                     delay(500)
-                    val result = geocodingGateway.findCityByName(query)
+                    val result = searchCityService.findCityByName(query)
                     _uiState.update { it.copy(citiesThatMatchCriteria = result) }
                 }
             }

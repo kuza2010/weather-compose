@@ -1,5 +1,7 @@
 package ru.adanil.weather.core.service.search
 
-interface SearchCityService {
+import ru.adanil.weather.model.domain.City
 
+interface SearchCityService {
+    suspend fun findCityByName(query: String): List<City>
 }
