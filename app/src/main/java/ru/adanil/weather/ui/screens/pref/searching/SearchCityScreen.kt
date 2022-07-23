@@ -17,10 +17,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.adanil.weather.R
+import ru.adanil.weather.ui.components.ConnectivityStatus
 import ru.adanil.weather.ui.components.WeatherSearchWidget
 import ru.adanil.weather.ui.theme.WeatherTheme
 
+@ExperimentalCoroutinesApi
 @Composable
 fun SearchCityScreen(
     navController: NavController,
@@ -28,7 +31,7 @@ fun SearchCityScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Column() {
+    Column {
         WeatherSearchWidget(
             searchQuery = uiState.searchQuery,
             onSearchIconClick = { viewModel.searchCity() },
@@ -36,6 +39,7 @@ fun SearchCityScreen(
             placeholder = R.string.search_placeholder_city_search,
             onSearchQueryChange = { viewModel.updateSearchQuery(it) },
         )
+        ConnectivityStatus()
         LazyColumn(
             modifier = Modifier.fillMaxWidth()
         ) {

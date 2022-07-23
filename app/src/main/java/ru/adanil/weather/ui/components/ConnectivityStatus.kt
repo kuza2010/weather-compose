@@ -19,13 +19,7 @@ import ru.adanil.weather.util.ui.connectivityState
 fun ConnectivityStatus() {
     val connection by connectivityState()
 
-    val isConnected = connection === ConnectionStatus.CONNECTED
-
-    if (isConnected) {
-        Text(text = "Conntected!")
-    } else {
-        Text(text = "Disconnected!")
-    }
+    ConnectivityStatus(connection)
 }
 
 
