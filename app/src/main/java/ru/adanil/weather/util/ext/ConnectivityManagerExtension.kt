@@ -26,7 +26,6 @@ val ConnectivityManager.currentConnectivityState: ConnectionStatus
         }
     }
 
-@OptIn(ExperimentalCoroutinesApi::class)
 fun ConnectivityManager.observeInternetConnectivityAsFlow(): Flow<ConnectionStatus> {
     return callbackFlow {
         trySend(currentConnectivityState)
