@@ -1,5 +1,6 @@
 package ru.adanil.weather.core.service.search
 
+import android.util.Log
 import ru.adanil.weather.core.gateway.GeocodingGateway
 import ru.adanil.weather.core.repository.CountryRepository
 import ru.adanil.weather.model.domain.City
@@ -11,7 +12,19 @@ class SearchCityServiceImpl @Inject constructor(
 ) : SearchCityService {
 
     override suspend fun findCityByName(query: String): List<City> {
-        val cities = geocodingGateway.findCityByName(query, 15)
+        val cities = try {
+            val response = geocodingGateway.findCityByName(query, 15)
+
+            if (!response.isSuccessful && response.body() != null) {
+                return emptyList()
+            } else {
+                response.body()!!
+            }
+        } catch (throwable: Throwable) {
+            Log.e("SearchCityService", "findCityByName: unexpected error: '${throwable.message}'", throwable)
+            return emptyList()
+        }
+
         val isoCodes = cities.map { it.countryCode.uppercase() }
         val countries = countryRepository.getByIso2Codes(isoCodes).associateBy { it.iso2 }
 

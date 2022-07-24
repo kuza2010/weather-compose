@@ -44,21 +44,7 @@ fun SearchCityScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             items(uiState.citiesThatMatchCriteria, { it.id }) { city ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = rememberRipple(),
-                            onClick = { /*do nothing */ }
-                        )
-                        .padding(start = 12.dp)
-                ) {
-                    Column() {
-                        Text(text = city.name)
-                        Text(text = city.country.name)
-                    }
-                }
+                SearchCityResult(city = city)
             }
 
             if (uiState.hasResult.not()) item { EmptyResult() }
