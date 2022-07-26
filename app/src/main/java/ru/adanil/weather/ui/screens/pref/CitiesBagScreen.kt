@@ -31,6 +31,7 @@ import ru.adanil.weather.ui.components.WeatherTopAppBar
 import ru.adanil.weather.ui.screens.WeatherScreens
 import ru.adanil.weather.ui.theme.Shapes
 import ru.adanil.weather.ui.theme.WeatherTheme
+import ru.adanil.weather.util.ext.navigateSingleTop
 
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
@@ -76,7 +77,7 @@ fun CitiesBagScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp),
-                    onClick = {navController.navigate(WeatherScreens.SearchCitiesScreen.route)}
+                    onClick = { navController.navigateSingleTop(WeatherScreens.SearchCitiesScreen) }
                 ) {
                     WeatherIcon(
                         painter = rememberVectorPainter(Icons.Filled.AddCircle),

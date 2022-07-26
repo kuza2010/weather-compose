@@ -39,7 +39,7 @@ class SearchCityServiceImpl @Inject constructor(
                         country = ourCountry,
                         name = cityResponse.name,
                         latitude = cityResponse.latitude,
-                        longitude = cityResponse.latitude,
+                        longitude = cityResponse.longitude,
                     )
                 )
             }

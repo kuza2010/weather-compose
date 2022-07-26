@@ -7,6 +7,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.adanil.weather.core.repository.CityRepository
 import ru.adanil.weather.core.service.search.SearchCityService
 import ru.adanil.weather.model.domain.City
 import javax.inject.Inject
@@ -28,6 +29,7 @@ data class SearchUiState(
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchCityService: SearchCityService,
+    private val cityRepository: CityRepository,
 ) : ViewModel() {
 
     private var searchJob: Job? = null
@@ -68,6 +70,14 @@ class SearchViewModel @Inject constructor(
                     _uiState.update { it.copy(citiesThatMatchCriteria = result) }
                 }
             }
+        }
+    }
+
+    fun selectCity(city: City) {
+        viewModelScope.launch {
+            // be aware that city is not selected
+            cityRepository.insertCity(city.copy(isSelected = false))
+            cityRepository.selectCity(city)
         }
     }
 }
