@@ -1,5 +1,6 @@
 package ru.adanil.weather.ui.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,6 +49,7 @@ fun AppBar(
     onAppSettingsClick: (() -> Unit)?,
     onChangeLocationClick: (() -> Unit)?,
 ) {
+    Log.e("TESTIN", "AppBar: $currentCity")
     Row(
         modifier = Modifier
             .fillMaxWidth()

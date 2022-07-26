@@ -1,13 +1,9 @@
 package ru.adanil.weather.ui.screens.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.updateAndGet
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.adanil.weather.core.repository.CityRepository
 import ru.adanil.weather.core.service.connectivity.ConnectionStatus
@@ -17,11 +13,11 @@ import javax.inject.Inject
 
 
 data class HomeUiState(
-    val isLoading: Boolean = true,
     val cities: List<City>? = null,
     val connectionStatus: ConnectionStatus? = null,
+) {
     val currentCity: City? = cities?.find { it.isSelected }
-)
+}
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
@@ -51,7 +47,7 @@ class HomeScreenViewModel @Inject constructor(
         viewModelScope.launch {
             cityRepository.getAll()
                 .collect { userCity ->
-                    _uiState.updateAndGet {
+                    _uiState.update {
                         _uiState.value.copy(cities = userCity)
                     }
                 }
