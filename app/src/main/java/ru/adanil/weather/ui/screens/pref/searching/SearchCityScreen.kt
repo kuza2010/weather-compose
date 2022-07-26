@@ -44,7 +44,10 @@ fun SearchCityScreen(
             items(uiState.citiesThatMatchCriteria, { it.id }) { city ->
                 SearchCityResult(
                     city = city,
-                    onCityClick = { viewModel.selectCity(city) }
+                    onCityClick = {
+                        viewModel.selectCity(city)
+                        navController.popBackStack()
+                    }
                 )
             }
 
