@@ -26,7 +26,7 @@ import androidx.navigation.NavController
 import ru.adanil.weather.R
 import ru.adanil.weather.ui.screens.WeatherScreens
 import ru.adanil.weather.ui.theme.WeatherTheme
-import ru.adanil.weather.util.ext.navigateTo
+import ru.adanil.weather.util.ext.navigateToTopActivity
 
 @Composable
 fun OfflineScreen(
@@ -36,9 +36,10 @@ fun OfflineScreen(
 
     val uiState by viewModel.uiState.collectAsState()
 
+    // :)
     LaunchedEffect(uiState.isAvailable) {
         if (uiState.isAvailable) {
-            navController.navigateTo(WeatherScreens.MainScreen)
+            navController.navigateToTopActivity(WeatherScreens.MainScreen)
         }
     }
 

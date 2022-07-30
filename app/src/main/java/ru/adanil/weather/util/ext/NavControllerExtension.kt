@@ -11,3 +11,16 @@ fun NavController.navigateTo(screen: WeatherScreens) {
 fun NavController.navigateSingleTop(screen: WeatherScreens) {
     this.navigate(screen.route, NavOptions.Builder().setLaunchSingleTop(true).build())
 }
+
+fun NavController.navigateToTopActivity(top: WeatherScreens) {
+    this.navigate(top.route) {
+        launchSingleTop = true
+        this@navigateToTopActivity.currentDestination
+            ?.route
+            ?.let { currentRoute ->
+                popUpTo(currentRoute) {
+                    inclusive = true
+                }
+            }
+    }
+}

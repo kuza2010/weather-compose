@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [CountryEntity::class, CityEntity::class],
-    exportSchema = true,
+    exportSchema = false,
     version = 1
 )
 abstract class WeatherDatabase : RoomDatabase() {
