@@ -7,5 +7,4 @@ interface HealthCheckGateway {
 
     @GET("./")
     suspend fun healthCheck(): Response<Unit>
-
 }

@@ -5,8 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import ru.adanil.weather.ui.components.Message.Companion.empty
-import java.util.*
-
+import java.util.UUID
 
 data class Message(
     val message: String,
@@ -18,7 +17,6 @@ data class Message(
     }
 }
 
-
 object SnackBarManager {
 
     private val _messages: MutableStateFlow<List<Message>> = MutableStateFlow(emptyList())
@@ -26,7 +24,6 @@ object SnackBarManager {
 
     val messages: StateFlow<List<Message>> get() = _messages.asStateFlow()
     val messagesWithAction: StateFlow<Message> get() = _messagesWithAction.asStateFlow()
-
 
     fun showMessage(message: Message) {
         _messages.update { it.plus(message) }
@@ -37,7 +34,6 @@ object SnackBarManager {
         _messagesWithAction.update { message }
     }
 
-
     fun setMessageShown(messageId: Long) {
         _messages.update { currentMessages ->
             currentMessages.filterNot { it.id == messageId }
@@ -47,5 +43,4 @@ object SnackBarManager {
     fun setMessageActionPerformed() {
         _messagesWithAction.update { empty }
     }
-
 }

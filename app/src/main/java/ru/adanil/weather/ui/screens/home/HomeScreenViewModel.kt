@@ -3,14 +3,17 @@ package ru.adanil.weather.ui.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import ru.adanil.weather.core.repository.CityRepository
 import ru.adanil.weather.core.service.connectivity.ConnectionStatus
 import ru.adanil.weather.core.service.connectivity.ConnectivityObserverService
 import ru.adanil.weather.model.domain.City
 import javax.inject.Inject
-
 
 data class HomeUiState(
     val cities: List<City>? = null,
@@ -32,7 +35,6 @@ class HomeScreenViewModel @Inject constructor(
     init {
         refresh()
     }
-
 
     private fun refresh() {
         viewModelScope.launch {

@@ -5,13 +5,16 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.adanil.weather.core.repository.CityRepository
 import ru.adanil.weather.core.service.search.SearchCityService
 import ru.adanil.weather.model.domain.City
 import javax.inject.Inject
-
 
 data class SearchUiState(
     val searchQuery: String,
@@ -25,7 +28,6 @@ data class SearchUiState(
     }
 }
 
-
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchCityService: SearchCityService,
@@ -38,7 +40,6 @@ class SearchViewModel @Inject constructor(
     val uiState: StateFlow<SearchUiState>
         get() = _uiState
 
-
     init {
         viewModelScope.launch {
             _uiState.map { it.searchQuery }
@@ -46,7 +47,6 @@ class SearchViewModel @Inject constructor(
                 .collect { query -> runCitySearch(query) }
         }
     }
-
 
     fun updateSearchQuery(value: String) {
         if (_uiState.value.searchQuery != value) {
@@ -57,7 +57,6 @@ class SearchViewModel @Inject constructor(
     fun searchCity() {
         runCitySearch(_uiState.value.searchQuery)
     }
-
 
     private fun runCitySearch(query: String) {
         searchJob?.cancel()

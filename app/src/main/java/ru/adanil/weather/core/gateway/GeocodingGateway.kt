@@ -12,5 +12,4 @@ interface GeocodingGateway {
         @Query("q") cityIdentifier: String, // city name, state code, country code ISO 3166
         @Query("limit") limit: Int = 20,
     ): Response<List<CityResponse>>
-
 }

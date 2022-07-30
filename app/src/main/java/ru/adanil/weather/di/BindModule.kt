@@ -23,5 +23,4 @@ interface BindModule {
 
     @Binds
     fun bindConnectivityService(connectionService: ConnectivityObserverServiceImpl): ConnectivityObserverService
-
 }

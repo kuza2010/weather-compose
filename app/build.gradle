@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'org.jlleitschuh.gradle.ktlint'
 }
 
 def apikeyPropertiesFile = rootProject.file("apikey.properties")
@@ -99,4 +100,8 @@ dependencies {
 // Allow references to generated code
 kapt {
     correctErrorTypes = true
+}
+
+preBuild {
+    dependsOn(ktlintCheck)
 }

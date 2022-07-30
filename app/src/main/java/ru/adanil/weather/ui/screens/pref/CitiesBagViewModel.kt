@@ -1,6 +1,5 @@
 package ru.adanil.weather.ui.screens.pref
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,11 +16,10 @@ import ru.adanil.weather.core.service.ResourceProvider
 import ru.adanil.weather.model.domain.City
 import ru.adanil.weather.ui.components.Message
 import ru.adanil.weather.ui.components.SnackBarManager
-import java.util.*
+import java.util.SortedSet
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
-
 
 data class UserCitiesUiState(
     private val _cities: SortedSet<City> = sortedSetOf(),
@@ -33,7 +31,6 @@ data class UserCitiesUiState(
         _cities.toList()
     }
 }
-
 
 @HiltViewModel
 class UserCitiesViewModel @Inject constructor(
@@ -66,7 +63,6 @@ class UserCitiesViewModel @Inject constructor(
         }
     }
 
-
     fun deleteCity(city: City): Boolean {
         if (busy.compareAndSet(false, true)) {
             coroutineScope.launch {
@@ -86,7 +82,6 @@ class UserCitiesViewModel @Inject constructor(
         }
     }
 
-
     private suspend fun deleteCityWithMessage(cityForRemoval: City): Long {
         val snackbarMessage = Message(
             resourceProvider.string(R.string.message_city_removed, cityForRemoval.name),
@@ -98,5 +93,4 @@ class UserCitiesViewModel @Inject constructor(
 
         return snackbarMessage.id
     }
-
 }

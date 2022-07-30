@@ -11,7 +11,7 @@ data class City(
     val isSelected: Boolean,
 ) : Comparable<City> {
     val latLonDisplay: String
-    val id: String = "${name}_${latitude}_${longitude}"
+    val id: String = "${name}_${latitude}_$longitude"
 
     override fun compareTo(other: City): Int = name.compareTo(other.name)
 
@@ -30,5 +30,4 @@ data class City(
         countryId = country.id,
         isSelected = isSelected
     )
-
 }

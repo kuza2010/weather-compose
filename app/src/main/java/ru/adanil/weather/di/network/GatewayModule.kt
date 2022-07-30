@@ -7,7 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.adanil.weather.core.gateway.GeocodingGateway
 import ru.adanil.weather.core.gateway.HealthCheckGateway
 import ru.adanil.weather.core.gateway.RetrofitFactory
-import java.util.*
+import java.util.Properties
 import javax.inject.Singleton
 
 @Module
@@ -38,5 +38,4 @@ class GatewayModule {
 
         return factory.create("$baseUrl$apiVersion/", GeocodingGateway::class.java)
     }
-
 }

@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient
 import ru.adanil.weather.BuildConfig
 import ru.adanil.weather.core.gateway.interceptors.HttpLoggingInterceptor
 import ru.adanil.weather.core.gateway.interceptors.WeatherApiInterceptor
-import java.util.*
+import java.util.Properties
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -28,5 +28,4 @@ class NetworkModule {
             .callTimeout(30, TimeUnit.SECONDS)
             .build()
     }
-
 }

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Uri
 
-
 val Context.connectivityManager: ConnectivityManager
     get() {
         return getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

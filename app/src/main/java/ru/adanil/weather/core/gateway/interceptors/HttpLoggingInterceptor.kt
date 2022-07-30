@@ -31,7 +31,7 @@ class HttpLoggingInterceptor : Interceptor {
             Log.d(TAG, source.buffer.clone().readString(Charset.defaultCharset()))
         }
 
-        return response;
+        return response
     }
 
     private fun bodyToString(request: Request): String {
@@ -44,5 +44,4 @@ class HttpLoggingInterceptor : Interceptor {
             ""
         }
     }
-
 }

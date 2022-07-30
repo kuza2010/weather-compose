@@ -17,5 +17,4 @@ class RetrofitFactory @Inject constructor(
             .build()
             .create(clazz)
     }
-
 }

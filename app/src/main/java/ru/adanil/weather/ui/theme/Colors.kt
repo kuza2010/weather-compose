@@ -18,7 +18,6 @@ val Primary200 = Color(0xFFB49ED2)
 val Primary100 = Color(0xFFD2C5E4)
 val Primary50 = Color(0xFFEDE7F4)
 
-
 val Secondary900 = Color(0xFF3A6D0E)
 val Secondary800 = Color(0xFF5F8F22)
 val Secondary700 = Color(0xFF73a32b)
@@ -30,9 +29,8 @@ val Secondary200 = Color(0xFFcde3a1)
 val Secondary100 = Color(0xFFe1eec6)
 val Secondary50 = Color(0xFFf3f8e8)
 
-
-val DarkBlack = Color(0xFF121212)       // Default black #121212
-val DarkSurface = Color(0xFF1F1D22)     // DarkBlack + Primary200 with 8% transparent
+val DarkBlack = Color(0xFF121212) // Default black #121212
+val DarkSurface = Color(0xFF1F1D22) // DarkBlack + Primary200 with 8% transparent
 val DarkPrimary0dp = Color(0xFF1F1D22)
 val DarkPrimary1dp = Color(0xFF2A292D)
 val DarkPrimary2dp = Color(0xFF2F2D32)
@@ -45,8 +43,7 @@ val DarkPrimary16dp = Color(0xFF403F43)
 val DarkPrimary24dp = Color(0xFF434146)
 
 val Error = Color(0xFF3F207D)
-val ErrorDark = Color(0xFF8C79B1)       // Error color + 40% white transparent
-
+val ErrorDark = Color(0xFF8C79B1) // Error color + 40% white transparent
 
 internal val LocalWeatherColors = staticCompositionLocalOf<Colors> {
     error("No Color provided")

@@ -5,7 +5,12 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.contentColorFor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
@@ -20,8 +25,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.SemanticsProperties.ImeAction
-import androidx.compose.ui.text.input.ImeAction.Companion
 import androidx.compose.ui.text.input.ImeAction.Companion.Search
 import androidx.compose.ui.tooling.preview.Preview
 import ru.adanil.weather.R
@@ -82,13 +85,12 @@ fun WeatherSearchWidget(
             keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide() }),
         )
     }
-    
+
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
         focusRequester.freeFocus()
     }
 }
-
 
 @Preview(name = "Light Mode")
 @Preview(

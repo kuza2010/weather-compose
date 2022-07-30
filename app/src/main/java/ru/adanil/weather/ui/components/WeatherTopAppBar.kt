@@ -42,7 +42,6 @@ fun WeatherTopAppBar(
     }
 }
 
-
 @Preview(name = "WeatherTopAppBar Light Mode")
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,

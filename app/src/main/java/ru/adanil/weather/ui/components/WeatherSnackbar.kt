@@ -1,7 +1,13 @@
 package ru.adanil.weather.ui.components
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Snackbar
+import androidx.compose.material.SnackbarData
+import androidx.compose.material.SnackbarDefaults
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color

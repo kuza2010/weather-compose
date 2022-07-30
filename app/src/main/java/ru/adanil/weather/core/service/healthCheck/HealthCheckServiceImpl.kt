@@ -28,5 +28,4 @@ class HealthCheckServiceImpl @Inject constructor(
             status
         }
     }
-
 }

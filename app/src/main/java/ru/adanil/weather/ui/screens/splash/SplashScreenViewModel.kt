@@ -31,5 +31,4 @@ class SplashScreenViewModel @Inject constructor(
     private fun isApiAvailable(): Boolean {
         return runBlocking { healthCheckService.isApiAvailable() }
     }
-
 }

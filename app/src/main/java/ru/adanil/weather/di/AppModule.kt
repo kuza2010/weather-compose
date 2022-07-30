@@ -2,7 +2,6 @@ package ru.adanil.weather.di
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.util.Log
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +11,7 @@ import ru.adanil.weather.BuildConfig
 import ru.adanil.weather.core.service.ResourceProvider
 import ru.adanil.weather.util.ext.connectivityManager
 import java.io.IOException
-import java.util.*
+import java.util.Properties
 import javax.inject.Singleton
 
 @Module
@@ -43,5 +42,4 @@ class AppModule {
     fun provideResourceProvider(@ApplicationContext appContext: Context): ResourceProvider {
         return ResourceProvider(appContext)
     }
-
 }

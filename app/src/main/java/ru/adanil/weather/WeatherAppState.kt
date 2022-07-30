@@ -47,14 +47,13 @@ class WeatherAppState(
 
                 val message = messageList.first()
 
-                when(scaffoldState.snackbarHostState.showSnackbar(message)){
+                when (scaffoldState.snackbarHostState.showSnackbar(message)) {
                     SnackbarResult.Dismissed -> snackbarManager.setMessageShown(message.id)
                     SnackbarResult.ActionPerformed -> snackbarManager.messageActionLabelClicked(message)
                 }
             }
         }
     }
-
 }
 
 suspend fun SnackbarHostState.showSnackbar(message: Message): SnackbarResult {

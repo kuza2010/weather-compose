@@ -1,6 +1,14 @@
 package ru.adanil.weather.ui.components
 
-import androidx.compose.material.*
+import androidx.compose.material.BackdropScaffold
+import androidx.compose.material.BackdropScaffoldDefaults
+import androidx.compose.material.BackdropScaffoldState
+import androidx.compose.material.BackdropValue
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.contentColorFor
+import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +35,7 @@ fun WeatherBackdropScaffold(
     frontLayerElevation: Dp = BackdropScaffoldDefaults.FrontLayerElevation,
     backLayerContentColor: Color = contentColorFor(backLayerBackgroundColor),
     frontLayerContentColor: Color = contentColorFor(frontLayerBackgroundColor),
-    frontLayerScrimColor: Color =  Color.Unspecified,
+    frontLayerScrimColor: Color = Color.Unspecified,
     snackbarHost: @Composable (SnackbarHostState) -> Unit = { SnackbarHost(it) },
     scaffoldState: BackdropScaffoldState = rememberBackdropScaffoldState(BackdropValue.Concealed),
 ) {

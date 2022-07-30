@@ -32,5 +32,4 @@ class DatabaseModule {
     fun provideCountryDao(appDatabase: WeatherDatabase): CountryDao {
         return appDatabase.countryDao()
     }
-
 }

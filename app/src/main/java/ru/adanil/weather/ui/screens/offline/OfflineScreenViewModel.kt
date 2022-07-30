@@ -13,9 +13,7 @@ import ru.adanil.weather.core.service.healthCheck.HealthCheckService
 import ru.adanil.weather.di.coroutine.IoDispatcher
 import javax.inject.Inject
 
-
 data class OfflineUiState(val isAvailable: Boolean)
-
 
 // TODO: https://medium.com/@ffvanderlaan/navigation-in-jetpack-compose-using-viewmodel-state-3b2517c24dde
 @HiltViewModel
@@ -28,11 +26,9 @@ class OfflineScreenViewModel @Inject constructor(
     val uiState: StateFlow<OfflineUiState>
         get() = _uiState
 
-
     init {
         checkConnection()
     }
-
 
     private fun checkConnection() {
         viewModelScope.launch(context = defaultDispatcher) {
@@ -42,5 +38,4 @@ class OfflineScreenViewModel @Inject constructor(
             _uiState.update { it.copy(isAvailable = true) }
         }
     }
-
 }
