@@ -1,5 +1,6 @@
 package ru.adanil.weather.ui.screens.pref
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,8 +15,8 @@ import ru.adanil.weather.R
 import ru.adanil.weather.core.repository.CityRepository
 import ru.adanil.weather.core.service.ResourceProvider
 import ru.adanil.weather.model.domain.City
-import ru.adanil.weather.ui.Message
-import ru.adanil.weather.ui.SnackBarManager
+import ru.adanil.weather.ui.components.Message
+import ru.adanil.weather.ui.components.SnackBarManager
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean

@@ -12,8 +12,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import ru.adanil.weather.ui.Message
-import ru.adanil.weather.ui.SnackBarManager
+import ru.adanil.weather.ui.components.Message
+import ru.adanil.weather.ui.components.SnackBarManager
 
 @Composable
 fun rememberWeatherAppState(

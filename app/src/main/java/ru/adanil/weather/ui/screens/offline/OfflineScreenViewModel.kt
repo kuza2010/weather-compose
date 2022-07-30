@@ -1,6 +1,5 @@
 package ru.adanil.weather.ui.screens.offline
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,8 +37,7 @@ class OfflineScreenViewModel @Inject constructor(
     private fun checkConnection() {
         viewModelScope.launch(context = defaultDispatcher) {
             while (!healthCheckService.isApiAvailable()) {
-                delay(1000)
-                Log.e("TESTIN", "checkConnection: not available...")
+                delay(2000)
             }
             _uiState.update { it.copy(isAvailable = true) }
         }

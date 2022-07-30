@@ -1,10 +1,10 @@
-package ru.adanil.weather.ui
+package ru.adanil.weather.ui.components
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import ru.adanil.weather.ui.Message.Companion.empty
+import ru.adanil.weather.ui.components.Message.Companion.empty
 import java.util.*
 
 
