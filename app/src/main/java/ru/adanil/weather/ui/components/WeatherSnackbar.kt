@@ -1,5 +1,6 @@
 package ru.adanil.weather.ui.components
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,9 +15,9 @@ import ru.adanil.weather.ui.theme.WeatherTheme
 fun WeatherSnackbar(
     snackbarData: SnackbarData,
     elevation: Dp = 6.dp,
-    modifier: Modifier = Modifier,
     actionOnNewLine: Boolean = false,
     shape: Shape = MaterialTheme.shapes.small,
+    modifier: Modifier = Modifier.padding(12.dp),
     contentColor: Color = WeatherTheme.color.onSecondary,
     backgroundColor: Color = WeatherTheme.color.onBackground,
     actionColor: Color = SnackbarDefaults.primaryActionColor,

@@ -49,7 +49,6 @@ fun AppBar(
     onAppSettingsClick: (() -> Unit)?,
     onChangeLocationClick: (() -> Unit)?,
 ) {
-    Log.e("TESTIN", "AppBar: $currentCity")
     Row(
         modifier = Modifier
             .fillMaxWidth()
