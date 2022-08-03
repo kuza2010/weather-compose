@@ -15,6 +15,7 @@
     <string name="search_placeholder_city_search">Enter city name or country code…</string>
 
     <!-- Error messages -->
+    <string name="error_server_unavailable">Oops…We can not rich the server</string>
     <string name="error_oops_error_message">Oops…Something went wrong</string>
     <string name="error_server_not_reachable">\'Weather today\' can not reach the server. Please, check your internet connection and try it again.</string>
     <string name="error_we_are_sorry">We are sorry!</string>

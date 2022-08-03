@@ -21,7 +21,7 @@ class SplashScreenViewModel @Inject constructor(
         return when (isApiAvailable()) {
             true -> WeatherScreens.MainScreen.route
             false -> {
-                val message = Message(resourceProvider.string(R.string.error_oops_error_message))
+                val message = Message(resourceProvider.string(R.string.error_server_unavailable))
                 SnackBarManager.showMessage(message)
                 WeatherScreens.OfflineScreen.route
             }

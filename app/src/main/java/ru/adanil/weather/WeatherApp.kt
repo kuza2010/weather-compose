@@ -1,10 +1,12 @@
 package ru.adanil.weather
 
 import android.app.Application
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarHost
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -27,9 +29,7 @@ import ru.adanil.weather.ui.theme.WeatherTheme
 class App : Application()
 
 @Composable
-fun WeatherApp(
-    startDestination: String = WeatherScreens.MainScreen.route
-) {
+fun WeatherApp(startDestination: String = WeatherScreens.MainScreen.route) {
     WeatherTheme {
         val appState = rememberWeatherAppState()
         Scaffold(
@@ -42,8 +42,9 @@ fun WeatherApp(
                 )
             },
             scaffoldState = appState.scaffoldState
-        ) {
+        ) { padding ->
             NavHost(
+                modifier = Modifier.padding(padding),
                 startDestination = startDestination,
                 navController = appState.navController
             ) {

@@ -24,8 +24,8 @@ data class HomeUiState(
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val connectivityObserverService: ConnectivityObserverService,
     private val cityRepository: CityRepository,
+    private val connectivityObserverService: ConnectivityObserverService,
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
