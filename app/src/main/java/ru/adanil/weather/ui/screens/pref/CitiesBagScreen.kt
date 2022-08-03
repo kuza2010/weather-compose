@@ -39,10 +39,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import ru.adanil.weather.R
 import ru.adanil.weather.model.domain.City
+import ru.adanil.weather.navigation.WeatherScreens
 import ru.adanil.weather.ui.components.WeatherCard
 import ru.adanil.weather.ui.components.WeatherIcon
 import ru.adanil.weather.ui.components.WeatherTopAppBar
-import ru.adanil.weather.ui.screens.WeatherScreens
 import ru.adanil.weather.ui.theme.Shapes
 import ru.adanil.weather.ui.theme.WeatherTheme
 import ru.adanil.weather.util.ext.navigateSingleTop

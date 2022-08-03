@@ -17,8 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import ru.adanil.weather.navigation.WeatherScreens
 import ru.adanil.weather.ui.components.WeatherBackdropScaffold
-import ru.adanil.weather.ui.screens.WeatherScreens
 import ru.adanil.weather.util.ext.navigateTo
 
 @ExperimentalMaterialApi

@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import ru.adanil.weather.R
-import ru.adanil.weather.ui.screens.WeatherScreens
+import ru.adanil.weather.navigation.WeatherScreens
 import ru.adanil.weather.ui.theme.WeatherTheme
 import ru.adanil.weather.util.ext.navigateToTopActivity
 

@@ -2,7 +2,7 @@ package ru.adanil.weather.util.ext
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import ru.adanil.weather.ui.screens.WeatherScreens
+import ru.adanil.weather.navigation.WeatherScreens
 
 fun NavController.navigateTo(screen: WeatherScreens) {
     this.navigate(screen.route)

@@ -6,9 +6,9 @@ import kotlinx.coroutines.runBlocking
 import ru.adanil.weather.R
 import ru.adanil.weather.core.service.ResourceProvider
 import ru.adanil.weather.core.service.healthCheck.HealthCheckService
+import ru.adanil.weather.navigation.WeatherScreens
 import ru.adanil.weather.ui.components.Message
 import ru.adanil.weather.ui.components.SnackBarManager
-import ru.adanil.weather.ui.screens.WeatherScreens
 import javax.inject.Inject
 
 @HiltViewModel
