@@ -16,21 +16,14 @@ import ru.adanil.weather.core.service.ResourceProvider
 import ru.adanil.weather.model.domain.City
 import ru.adanil.weather.ui.components.Message
 import ru.adanil.weather.ui.components.SnackBarManager
-import java.util.SortedSet
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 data class UserCitiesUiState(
-    private val _cities: SortedSet<City> = sortedSetOf(),
-    val currentCity: City? = _cities.find { it.isSelected }
-) {
-    constructor(notSortedCities: Collection<City>) : this(notSortedCities.toSortedSet())
-
-    val cities: List<City> by lazy {
-        _cities.toList()
-    }
-}
+    val cities: List<City> = listOf(),
+    val currentCity: City? = cities.find { it.isSelected }
+)
 
 @HiltViewModel
 class UserCitiesViewModel @Inject constructor(

@@ -14,7 +14,7 @@ interface CityDao {
     @Query("SELECT * FROM cities WHERE city_id = :id")
     suspend fun getById(id: String): CityEntity?
 
-    @Query("SELECT * FROM cities JOIN country ON cities.country_id = country.id")
+    @Query("SELECT * FROM cities JOIN country ON cities.country_id = country.id order by city_name")
     fun getAll(): Flow<Map<CityEntity, CountryEntity>>
 
     @Query("DELETE FROM cities WHERE city_id = :id")
