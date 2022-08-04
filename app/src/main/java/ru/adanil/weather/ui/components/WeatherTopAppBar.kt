@@ -1,56 +1,84 @@
 package ru.adanil.weather.ui.components
 
 import android.content.res.Configuration
-import androidx.annotation.StringRes
+import androidx.compose.material.AppBarDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.contentColorFor
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import ru.adanil.weather.R
+import androidx.compose.ui.unit.Dp
 import ru.adanil.weather.ui.theme.WeatherTheme
 
 @Composable
-fun WeatherTopAppBar(
-    @StringRes title: Int,
-    onNavigationIconClickListener: () -> Unit,
+fun WeatherTopAppBar2(
+    title: String,
+    modifier: Modifier = Modifier,
+    actionIcon: ImageVector?,
+    navigationIcon: ImageVector,
+    backgroundColor: Color = MaterialTheme.colors.primarySurface,
+    contentColor: Color = contentColorFor(backgroundColor),
+    elevation: Dp = AppBarDefaults.TopAppBarElevation,
+    onNavigationClick: () -> Unit = {},
+    onActionClick: () -> Unit = {}
 ) {
     TopAppBar(
-        backgroundColor = WeatherTheme.color.background
-    ) {
-        IconButton(
-            onClick = { onNavigationIconClickListener.invoke() }
-        ) {
-            WeatherIconMedium(
-                tint = contentColorFor(WeatherTheme.color.background),
-                painter = rememberVectorPainter(Icons.Filled.ArrowBack),
-                contentDescription = "Navigation icon for ${stringResource(title)}"
+        title = {
+            Text(
+                text = title,
+                color = contentColorFor(WeatherTheme.color.background)
             )
-        }
-        Text(
-            text = stringResource(title),
-            overflow = TextOverflow.Ellipsis,
-            style = WeatherTheme.typography.h5,
-            color = contentColorFor(WeatherTheme.color.background),
-        )
-    }
+        },
+        modifier = modifier,
+        navigationIcon = {
+            IconButton(onClick = onNavigationClick) {
+                Icon(
+                    imageVector = navigationIcon,
+                    tint = contentColorFor(WeatherTheme.color.background),
+                    contentDescription = "Navigation icon for $title"
+                )
+            }
+        },
+        actions = {
+            if (actionIcon != null) {
+                IconButton(onClick = onActionClick) {
+                    Icon(
+                        imageVector = actionIcon,
+                        tint = contentColorFor(WeatherTheme.color.background),
+                        contentDescription = "Action icon for $title"
+                    )
+                }
+            }
+        },
+        elevation = elevation,
+        contentColor = contentColor,
+        backgroundColor = WeatherTheme.color.background,
+    )
 }
 
-@Preview(name = "WeatherTopAppBar Light Mode")
+@Preview(name = "WeatherTopAppBar2 Light Mode")
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true,
     name = "WeatherTopAppBar Dark Mode"
 )
 @Composable
-fun PreviewWeatherTopAppBar() {
+fun PreviewWeatherTopAppBar2() {
     WeatherTheme() {
-        WeatherTopAppBar(R.string.message_city_removed) {}
+        WeatherTopAppBar2(
+            title = "Top app bar",
+            actionIcon = Icons.Default.MoreVert,
+            navigationIcon = Icons.Default.Search
+        )
     }
 }

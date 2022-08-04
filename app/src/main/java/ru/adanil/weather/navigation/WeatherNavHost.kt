@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.adanil.weather.ui.screens.home.HomeScreen
 import ru.adanil.weather.ui.screens.home.HomeScreenViewModel
@@ -45,12 +46,21 @@ private fun NavGraphBuilder.weatherAppNavGraph(navController: NavHostController)
         val vm = hiltViewModel<OfflineScreenViewModel>()
         OfflineScreen(navController, vm)
     }
-    // make it nested
-    composable(route = WeatherScreens.UserCitiesScreen.route) {
-        val vm = hiltViewModel<UserCitiesViewModel>()
-        CitiesBagScreen(navController, vm)
-    }
-    composable(route = WeatherScreens.SearchCitiesScreen.route) {
-        SearchCityScreen(navController)
+    citySettingsNavGraph(navController)
+}
+
+@OptIn(ExperimentalCoroutinesApi::class)
+fun NavGraphBuilder.citySettingsNavGraph(navController: NavHostController) {
+    navigation(
+        route = "city-settings",
+        startDestination = WeatherScreens.UserCitiesScreen.route
+    ) {
+        composable(route = WeatherScreens.UserCitiesScreen.route) {
+            val vm = hiltViewModel<UserCitiesViewModel>()
+            CitiesBagScreen(navController, vm)
+        }
+        composable(route = WeatherScreens.SearchCitiesScreen.route) {
+            SearchCityScreen(navController)
+        }
     }
 }
