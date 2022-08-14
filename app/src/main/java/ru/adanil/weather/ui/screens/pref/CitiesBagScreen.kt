@@ -44,7 +44,7 @@ import ru.adanil.weather.model.domain.City
 import ru.adanil.weather.navigation.WeatherScreens
 import ru.adanil.weather.ui.components.WeatherCard
 import ru.adanil.weather.ui.components.WeatherIcon
-import ru.adanil.weather.ui.components.WeatherTopAppBar2
+import ru.adanil.weather.ui.components.WeatherTopAppBar
 import ru.adanil.weather.ui.theme.Shapes
 import ru.adanil.weather.ui.theme.WeatherTheme
 import ru.adanil.weather.util.ext.navigateSingleTop
@@ -58,7 +58,7 @@ fun CitiesBagScreen(
     val uiState: UserCitiesUiState by viewModel.uiState.collectAsState()
 
     Column() {
-        WeatherTopAppBar2(
+        WeatherTopAppBar(
             actionIcon = null,
             navigationIcon = Icons.Filled.ArrowBack,
             title = stringResource(id = R.string.title_user_cities),

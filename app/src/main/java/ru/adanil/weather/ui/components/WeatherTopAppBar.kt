@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.Dp
 import ru.adanil.weather.ui.theme.WeatherTheme
 
 @Composable
-fun WeatherTopAppBar2(
+fun WeatherTopAppBar(
     title: String,
     modifier: Modifier = Modifier,
     actionIcon: ImageVector?,
@@ -73,9 +73,9 @@ fun WeatherTopAppBar2(
     name = "WeatherTopAppBar Dark Mode"
 )
 @Composable
-fun PreviewWeatherTopAppBar2() {
+fun PreviewWeatherTopAppBar() {
     WeatherTheme() {
-        WeatherTopAppBar2(
+        WeatherTopAppBar(
             title = "Top app bar",
             actionIcon = Icons.Default.MoreVert,
             navigationIcon = Icons.Default.Search

@@ -9,7 +9,7 @@ import ru.adanil.weather.R
 import ru.adanil.weather.core.service.connectivity.ConnectionStatus
 import ru.adanil.weather.model.domain.City
 import ru.adanil.weather.ui.components.ConnectivityStatus
-import ru.adanil.weather.ui.components.WeatherTopAppBar2
+import ru.adanil.weather.ui.components.WeatherTopAppBar
 
 @Composable
 fun HomeAppBar(
@@ -22,7 +22,7 @@ fun HomeAppBar(
         ConnectivityStatus(connectionStatus = connectionStatus)
     }
 
-    WeatherTopAppBar2(
+    WeatherTopAppBar(
         onActionClick = onAppSettingsClick,
         navigationIcon = Icons.Filled.Add,
         actionIcon = Icons.Filled.Settings,
