@@ -30,6 +30,7 @@ import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -56,6 +57,10 @@ fun CitiesBagScreen(
     viewModel: UserCitiesViewModel,
 ) {
     val uiState: UserCitiesUiState by viewModel.uiState.collectAsState()
+
+    val onAddButtonClicked = remember(navController) {
+        { navController.navigateSingleTop(WeatherScreens.SearchCitiesScreen) }
+    }
 
     Column() {
         WeatherTopAppBar(
@@ -89,23 +94,7 @@ fun CitiesBagScreen(
                     }
                 )
             }
-            item {
-                WeatherCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(12.dp),
-                    onClick = { navController.navigateSingleTop(WeatherScreens.SearchCitiesScreen) }
-                ) {
-                    WeatherIcon(
-                        painter = rememberVectorPainter(Icons.Filled.AddCircle),
-                        contentDescription = "Add new city",
-                        modifier = Modifier
-                            .padding(12.dp)
-                            .width(56.dp)
-                            .height(56.dp)
-                    )
-                }
-            }
+            item(key = "") { AddCityButton(onAddButtonClicked) }
         }
     }
 }
@@ -185,6 +174,27 @@ fun CityCardContent(
             modifier = Modifier.padding(12.dp),
             style = WeatherTheme.typography.h4,
             text = city.name.replaceFirstChar { it.uppercase() }
+        )
+    }
+}
+
+@Composable
+fun AddCityButton(
+    onAddButtonClicked: () -> Unit,
+) {
+    WeatherCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp),
+        onClick = onAddButtonClicked
+    ) {
+        WeatherIcon(
+            painter = rememberVectorPainter(Icons.Filled.AddCircle),
+            contentDescription = "Add new city",
+            modifier = Modifier
+                .padding(12.dp)
+                .width(56.dp)
+                .height(56.dp)
         )
     }
 }
