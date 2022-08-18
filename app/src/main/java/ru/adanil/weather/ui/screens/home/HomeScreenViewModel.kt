@@ -19,9 +19,7 @@ import javax.inject.Inject
 data class HomeUiState(
     val cities: List<City>? = null,
     val connectionStatus: ConnectionStatus? = null,
-) {
-    val currentCity: City? = cities?.find { it.isSelected }
-}
+)
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
@@ -52,7 +50,7 @@ class HomeScreenViewModel @Inject constructor(
             cityRepository.getAll()
                 .collect { userCity ->
                     _uiState.update {
-                        _uiState.value.copy(cities = userCity)
+                        it.copy(cities = userCity)
                     }
                 }
         }

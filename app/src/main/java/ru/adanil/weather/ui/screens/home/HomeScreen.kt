@@ -13,6 +13,7 @@ import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -31,11 +32,14 @@ fun HomeScreen(
     val uiState: HomeUiState by exampleViewModel.uiState.collectAsState()
     val backdropState = rememberBackdropScaffoldState(initialValue = BackdropValue.Revealed)
     val scrollState = rememberScrollState()
+    val currentCity = remember(uiState.cities) {
+        uiState.cities?.find { it.isSelected }
+    }
 
     WeatherBackdropScaffold(
         appBar = {
             HomeAppBar(
-                currentCity = uiState.currentCity,
+                currentCity = currentCity,
                 onAppSettingsClick = {},
                 onChangeLocationClick = {
                     navController.navigateTo(WeatherScreens.UserCitiesScreen)
