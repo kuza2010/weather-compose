@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.adanil.weather.R
 import ru.adanil.weather.model.domain.City
@@ -54,7 +55,7 @@ import ru.adanil.weather.util.ext.navigateSingleTop
 @Composable
 fun CitiesBagScreen(
     navController: NavController,
-    viewModel: UserCitiesViewModel,
+    viewModel: UserCitiesViewModel = hiltViewModel(),
 ) {
     val uiState: UserCitiesUiState by viewModel.uiState.collectAsState()
 

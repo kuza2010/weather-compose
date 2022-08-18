@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.adanil.weather.R
 import ru.adanil.weather.navigation.WeatherScreens
@@ -31,9 +32,8 @@ import ru.adanil.weather.util.ext.navigateToTopActivity
 @Composable
 fun OfflineScreen(
     navController: NavController,
-    viewModel: OfflineScreenViewModel
+    viewModel: OfflineScreenViewModel = hiltViewModel()
 ) {
-
     val uiState by viewModel.uiState.collectAsState()
 
     // :)

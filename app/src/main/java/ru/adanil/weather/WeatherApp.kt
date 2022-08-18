@@ -7,6 +7,7 @@ import androidx.compose.material.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.adanil.weather.navigation.WeatherNavHost
 import ru.adanil.weather.navigation.WeatherScreens
 import ru.adanil.weather.ui.components.WeatherSnackbar
@@ -15,6 +16,7 @@ import ru.adanil.weather.ui.theme.WeatherTheme
 @HiltAndroidApp
 class App : Application()
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
 fun WeatherApp(startDestination: String = WeatherScreens.MainScreen.route) {
     WeatherTheme {
