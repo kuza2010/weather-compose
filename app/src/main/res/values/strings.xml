@@ -9,6 +9,8 @@
     <string name="title_user_cities">Your cities</string>
 
     <string name="message_select_city">Choose your city</string>
+    <string name="message_select_city_hint">Where are you, mate 👀?</string>
+    <string name="message_select_city_variant">Click to choose city</string>
     <string name="message_city_removed">City %1$s removed</string>
 
     <string name="search_no_result_emoji">No result found 🤷</string>
