@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.adanil.weather.core.gateway.GeocodingGateway
 import ru.adanil.weather.core.gateway.HealthCheckGateway
 import ru.adanil.weather.core.gateway.RetrofitFactory
+import ru.adanil.weather.core.gateway.WeatherGateway
 import java.util.Properties
 import javax.inject.Singleton
 
@@ -37,5 +38,18 @@ class GatewayModule {
         val apiVersion = properties.getProperty("api-geocoding-version")
 
         return factory.create("$baseUrl$apiVersion/", GeocodingGateway::class.java)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideWeatherGateway(
+        properties: Properties,
+        factory: RetrofitFactory
+    ): WeatherGateway {
+        val baseUrl = properties.getProperty("base-url")
+        val apiVersion = properties.getProperty("api-version")
+        val weatherEndpoint = properties.getProperty("weather-endpoint")
+
+        return factory.create("$baseUrl$apiVersion$weatherEndpoint", WeatherGateway::class.java)
     }
 }

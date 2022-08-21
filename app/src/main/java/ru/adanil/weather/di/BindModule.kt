@@ -10,10 +10,15 @@ import ru.adanil.weather.core.service.healthCheck.HealthCheckService
 import ru.adanil.weather.core.service.healthCheck.HealthCheckServiceImpl
 import ru.adanil.weather.core.service.search.SearchCityService
 import ru.adanil.weather.core.service.search.SearchCityServiceImpl
+import ru.adanil.weather.core.service.weather.WeatherService
+import ru.adanil.weather.core.service.weather.WeatherServiceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
 interface BindModule {
+
+    @Binds
+    fun bindWeatherService(weatherService: WeatherServiceImpl): WeatherService
 
     @Binds
     fun bindSearchCityService(searchCityService: SearchCityServiceImpl): SearchCityService
