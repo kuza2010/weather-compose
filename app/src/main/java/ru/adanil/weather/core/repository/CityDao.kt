@@ -23,6 +23,9 @@ interface CityDao {
     @Query("SELECT * FROM cities WHERE is_selected = 1")
     suspend fun getSelectedCity(): CityEntity?
 
+    @Query("SELECT * FROM cities WHERE is_selected = 1")
+    fun getSelectedCityFlow(): Flow<CityEntity?>
+
     @Query("SELECT * FROM cities JOIN country ON cities.country_id = country.id WHERE city_id IN (:ids)")
     suspend fun getByCityIds(vararg ids: String): Map<CityEntity, CountryEntity>
 

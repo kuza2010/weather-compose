@@ -1,6 +1,12 @@
 package ru.adanil.weather.core.repository
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import ru.adanil.weather.model.domain.City
 import javax.inject.Inject
@@ -8,13 +14,21 @@ import javax.inject.Singleton
 
 @Singleton
 class CityRepository @Inject constructor(
-    private val cityDao: CityDao
+    private val cityDao: CityDao,
+    private val countryDao: CountryDao
 ) {
 
     fun getAll(): Flow<List<City>> = cityDao.getAll()
         .map { cityList ->
             cityList.toList()
                 .map { (city, country) -> city.toDomain(country) }
+        }
+
+    fun getUserSelectedCity(): Flow<City> = cityDao.getSelectedCityFlow()
+        .filterNotNull()
+        .map {
+            val country = countryDao.getById(it.countryId)
+            it.toDomain(country)
         }
 
     suspend fun insertCity(vararg cities: City) {
