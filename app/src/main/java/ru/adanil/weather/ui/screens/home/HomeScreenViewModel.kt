@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import ru.adanil.weather.core.repository.CityRepository
 import ru.adanil.weather.core.service.connectivity.ConnectionStatus
@@ -44,15 +43,15 @@ class HomeScreenViewModel @Inject constructor(
             connectivityObserverService.observeInternetConnection
                 .distinctUntilChanged()
                 .collect { newConnectionStatus ->
-                    _uiState.updateAndGet {
-                        _uiState.value.copy(connectionStatus = newConnectionStatus)
+                    _uiState.update {
+                        it.copy(connectionStatus = newConnectionStatus)
                     }
                 }
         }
         viewModelScope.launch {
             cityRepository.getUserSelectedCity()
                 .distinctUntilChanged()
-                .map { userCity -> userCity to updateWeather(userCity) }
+                .map { userCity -> userCity to weatherService.currentWeather(userCity) }
                 .collect { userCityAndWeather ->
                     _uiState.update {
                         it.copy(
@@ -62,13 +61,5 @@ class HomeScreenViewModel @Inject constructor(
                     }
                 }
         }
-    }
-
-    private suspend fun updateWeather(city: City?): CurrentWeather? {
-        if (city == null) {
-            return null
-        }
-
-        return weatherService.currentWeather(city)
     }
 }
