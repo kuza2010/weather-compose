@@ -3,8 +3,10 @@ package ru.adanil.weather.ui.screens.home
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -22,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,6 +36,7 @@ import ru.adanil.weather.model.domain.CurrentWeather
 import ru.adanil.weather.navigation.WeatherScreens
 import ru.adanil.weather.ui.components.SecondaryButton
 import ru.adanil.weather.ui.components.WeatherBackdropScaffold
+import ru.adanil.weather.ui.components.WeatherIconZoomed
 import ru.adanil.weather.ui.theme.WeatherTheme
 import ru.adanil.weather.util.ext.navigateSingleTop
 import ru.adanil.weather.util.ui.recomposeHighlighter
@@ -118,21 +122,31 @@ fun WeatherSummary(
     weather: CurrentWeather
 ) {
     var visible by remember { mutableStateOf(false) }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .recomposeHighlighter(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+
+    AnimatedVisibility(
+        modifier = Modifier.recomposeHighlighter(),
+        visible = visible,
+        enter = fadeIn(),
     ) {
-        AnimatedVisibility(
-            modifier = Modifier.recomposeHighlighter(),
-            visible = visible,
-            enter = fadeIn(),
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Row() {
+                Text(
+                    style = WeatherTheme.typography.h1,
+                    text = weather.tempSummary.tempDisplay
+                )
+                WeatherIconZoomed(
+                    modifier = Modifier.align(Alignment.Bottom),
+                    contentDescription = weather.weather.first().description,
+                    painter = painterResource(id = if (isSystemInDarkTheme()) weather.weather.first().weatherConditionCode.iconDay else weather.weather.first().weatherConditionCode.iconNight)
+                )
+            }
             Text(
-                style = WeatherTheme.typography.h1,
-                text = weather.tempSummary.tempDisplay
+                style = WeatherTheme.typography.subtitle2,
+                text = weather.weather.first().weatherConditionCode.description.replaceFirstChar { it.titlecase() }
             )
         }
     }

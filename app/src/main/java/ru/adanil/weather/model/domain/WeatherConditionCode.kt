@@ -248,7 +248,6 @@ enum class WeatherConditionCode(
 
     UNKNOWN(-1, "Unknown", "Unknown", R.drawable.ic_04d, R.drawable.ic_04d);
 
-
     companion object {
         fun getWeatherConditionCode(id: Int): WeatherConditionCode {
             return enumValues<WeatherConditionCode>().find { it.id == id }

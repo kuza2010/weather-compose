@@ -11,6 +11,23 @@ import androidx.compose.ui.unit.dp
 import ru.adanil.weather.ui.theme.WeatherTheme
 
 @Composable
+fun WeatherIconZoomed(
+    painter: Painter,
+    contentDescription: String,
+    modifier: Modifier = Modifier,
+    tint: Color = WeatherTheme.color.onBackground
+) {
+    WeatherIcon(
+        tint = tint,
+        painter = painter,
+        contentDescription = contentDescription,
+        modifier = modifier
+            .width(64.dp)
+            .height(64.dp)
+    )
+}
+
+@Composable
 fun WeatherIconMedium(
     painter: Painter,
     contentDescription: String,
