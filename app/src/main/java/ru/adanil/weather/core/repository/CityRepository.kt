@@ -1,7 +1,6 @@
 package ru.adanil.weather.core.repository
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import ru.adanil.weather.model.domain.City
 import javax.inject.Inject
@@ -19,9 +18,11 @@ class CityRepository @Inject constructor(
                 .map { (city, country) -> city.toDomain(country) }
         }
 
-    fun getUserSelectedCity(): Flow<City> = cityDao.getSelectedCityFlow()
-        .filterNotNull()
+    fun getUserSelectedCity(): Flow<City?> = cityDao.getSelectedCityFlow()
         .map {
+            if (it == null) {
+                return@map null
+            }
             val country = countryDao.getById(it.countryId)
             it.toDomain(country)
         }
