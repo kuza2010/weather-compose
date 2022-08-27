@@ -1,6 +1,5 @@
 package ru.adanil.weather.ui.screens.home
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ScrollState
@@ -17,7 +16,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import ru.adanil.weather.R
 import ru.adanil.weather.model.domain.CurrentWeather
@@ -37,15 +37,16 @@ import ru.adanil.weather.ui.theme.WeatherTheme
 import ru.adanil.weather.util.ext.navigateSingleTop
 import ru.adanil.weather.util.ui.recomposeHighlighter
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @ExperimentalMaterialApi
 @Composable
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
-    val uiState: HomeUiState by viewModel.uiState.collectAsState()
-    val backdropState = rememberBackdropScaffoldState(initialValue = BackdropValue.Revealed)
     val scrollState = rememberScrollState()
+    val uiState: HomeUiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val backdropState = rememberBackdropScaffoldState(initialValue = BackdropValue.Revealed)
 
     val navigateToCitiesScreen = remember(navController) {
         { navController.navigateSingleTop(WeatherScreens.UserCitiesScreen) }
@@ -116,7 +117,6 @@ fun EmptyWeatherSummary(
 fun WeatherSummary(
     weather: CurrentWeather
 ) {
-    Log.e("TESTIN", "WeatherSummary: $weather")
     var visible by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
