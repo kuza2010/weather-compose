@@ -1,5 +1,6 @@
 package ru.adanil.weather.ui.screens.home
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ScrollState
@@ -28,21 +29,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.adanil.weather.R
-import ru.adanil.weather.model.domain.City
 import ru.adanil.weather.model.domain.CurrentWeather
 import ru.adanil.weather.navigation.WeatherScreens
 import ru.adanil.weather.ui.components.SecondaryButton
 import ru.adanil.weather.ui.components.WeatherBackdropScaffold
 import ru.adanil.weather.ui.theme.WeatherTheme
 import ru.adanil.weather.util.ext.navigateSingleTop
+import ru.adanil.weather.util.ui.recomposeHighlighter
 
 @ExperimentalMaterialApi
 @Composable
 fun HomeScreen(
     navController: NavController,
-    exampleViewModel: HomeScreenViewModel = hiltViewModel()
+    viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
-    val uiState: HomeUiState by exampleViewModel.uiState.collectAsState()
+    val uiState: HomeUiState by viewModel.uiState.collectAsState()
     val backdropState = rememberBackdropScaffoldState(initialValue = BackdropValue.Revealed)
     val scrollState = rememberScrollState()
 
@@ -55,14 +56,13 @@ fun HomeScreen(
             HomeAppBar(
                 currentCity = uiState.city,
                 onAppSettingsClick = {},
-                onChangeLocationClick = { navigateToCitiesScreen() },
+                onChangeLocationClick = navigateToCitiesScreen,
                 connectionStatus = uiState.connectionStatus
             )
         },
         scaffoldState = backdropState,
         backLayerContent = {
             MainContent(
-                city = uiState.city,
                 weather = uiState.weather,
                 loading = uiState.loading,
                 onAddButtonClick = navigateToCitiesScreen
@@ -78,13 +78,12 @@ fun HomeScreen(
 
 @Composable
 fun MainContent(
-    city: City?,
     loading: Boolean,
     weather: CurrentWeather?,
     onAddButtonClick: () -> Unit
 ) {
     when {
-        loading || city == null || weather == null -> EmptyWeatherSummary(loading, onAddButtonClick)
+        loading || weather == null -> EmptyWeatherSummary(loading, onAddButtonClick)
         else -> WeatherSummary(weather)
     }
 }
@@ -117,23 +116,27 @@ fun EmptyWeatherSummary(
 fun WeatherSummary(
     weather: CurrentWeather
 ) {
+    Log.e("TESTIN", "WeatherSummary: $weather")
     var visible by remember { mutableStateOf(false) }
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .recomposeHighlighter(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AnimatedVisibility(
+            modifier = Modifier.recomposeHighlighter(),
             visible = visible,
             enter = fadeIn(),
         ) {
             Text(
-                style = WeatherTheme.typography.h2,
-                text = weather.tempSummary.temp.toString()
+                style = WeatherTheme.typography.h1,
+                text = weather.tempSummary.tempDisplay
             )
         }
     }
 
-    LaunchedEffect(weather.cityId) {
+    LaunchedEffect(Unit) {
         visible = true
     }
 }

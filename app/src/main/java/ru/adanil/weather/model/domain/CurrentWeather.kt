@@ -1,5 +1,7 @@
 package ru.adanil.weather.model.domain
 
+import kotlin.math.roundToInt
+
 data class CurrentWeather(
     val wind: Wind,
     val clouds: Clouds,
@@ -34,4 +36,17 @@ data class TempSummary(
     val pressure: Double,
     val humidity: Double,
     val feels_like: Double,
-)
+) {
+    val tempDisplay: String
+        get() = "${temp.roundToInt()}°"
+    val temp_minDisplay: String
+        get() = "${temp_min.roundToInt()}°"
+    val temp_maxDisplay: String
+        get() = "${temp_max.roundToInt()}°"
+    val pressureDisplay: String
+        get() = "${pressure.roundToInt()}°"
+    val humidityDisplay: String
+        get() = "${humidity.roundToInt()}°"
+    val feels_likeDisplay: String
+        get() = "${feels_like.roundToInt()}°"
+}

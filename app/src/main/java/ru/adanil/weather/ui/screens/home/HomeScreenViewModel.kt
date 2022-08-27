@@ -1,5 +1,6 @@
 package ru.adanil.weather.ui.screens.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,6 +57,7 @@ class HomeScreenViewModel @Inject constructor(
                 .retrieveWeather()
                 .collect { userCityAndWeather ->
                     _uiState.update {
+                        Log.e("TESTIN", "refresh")
                         it.copy(
                             loading = false,
                             city = userCityAndWeather.first,
