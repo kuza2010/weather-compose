@@ -27,6 +27,7 @@ data class Weather(
     val icon: String,
     val weather: String,
     val description: String,
+    val weatherConditionCode: WeatherConditionCode = WeatherConditionCode.getWeatherConditionCode(id)
 )
 
 data class TempSummary(

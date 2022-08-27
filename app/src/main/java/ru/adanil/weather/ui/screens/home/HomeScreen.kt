@@ -122,6 +122,7 @@ fun WeatherSummary(
         modifier = Modifier
             .fillMaxSize()
             .recomposeHighlighter(),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AnimatedVisibility(
