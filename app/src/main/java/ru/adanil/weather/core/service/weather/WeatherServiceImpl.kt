@@ -35,6 +35,6 @@ class WeatherServiceImpl @Inject constructor(
             null
         }
 
-        return weather?.toDomain()
+        return weather?.toDomain(temperatureUnit)
     }
 }
