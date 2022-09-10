@@ -25,6 +25,10 @@ object SnackBarManager {
     val messages: StateFlow<List<Message>> get() = _messages.asStateFlow()
     val messagesWithAction: StateFlow<Message> get() = _messagesWithAction.asStateFlow()
 
+    fun showMessageAtTheTop(message: Message) {
+        _messages.update { listOf(message) }
+    }
+
     fun showMessage(message: Message) {
         _messages.update { it.plus(message) }
     }

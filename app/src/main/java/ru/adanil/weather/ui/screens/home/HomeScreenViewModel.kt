@@ -1,6 +1,5 @@
 package ru.adanil.weather.ui.screens.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,12 +10,19 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.adanil.weather.R
 import ru.adanil.weather.core.repository.CityRepository
+import ru.adanil.weather.core.service.ResourceProvider
 import ru.adanil.weather.core.service.connectivity.ConnectionStatus
 import ru.adanil.weather.core.service.connectivity.ConnectivityObserverService
 import ru.adanil.weather.core.service.weather.WeatherService
 import ru.adanil.weather.model.domain.City
 import ru.adanil.weather.model.domain.CurrentWeather
+import ru.adanil.weather.model.domain.ResponseWrapper.GenericError
+import ru.adanil.weather.model.domain.ResponseWrapper.NetworkError
+import ru.adanil.weather.model.domain.ResponseWrapper.Success
+import ru.adanil.weather.ui.components.Message
+import ru.adanil.weather.ui.components.SnackBarManager
 import javax.inject.Inject
 
 data class HomeUiState(
@@ -30,6 +36,7 @@ data class HomeUiState(
 class HomeScreenViewModel @Inject constructor(
     private val cityRepository: CityRepository,
     private val weatherService: WeatherService,
+    private val resourceProvider: ResourceProvider,
     private val connectivityObserverService: ConnectivityObserverService,
 ) : ViewModel() {
 
@@ -57,7 +64,6 @@ class HomeScreenViewModel @Inject constructor(
                 .retrieveWeather()
                 .collect { userCityAndWeather ->
                     _uiState.update {
-                        Log.e("TESTIN", "refresh")
                         it.copy(
                             loading = false,
                             city = userCityAndWeather.first,
@@ -72,7 +78,18 @@ class HomeScreenViewModel @Inject constructor(
         map { userCity ->
             when (userCity) {
                 null -> userCity to null
-                else -> userCity to weatherService.currentWeather(userCity)
+                else -> {
+                    when (val response = weatherService.currentWeather(userCity)) {
+                        is Success -> userCity to response.value
+                        is GenericError,
+                        is NetworkError -> {
+                            SnackBarManager.showMessageAtTheTop(
+                                Message(resourceProvider.string(R.string.error_fetch_weather))
+                            )
+                            userCity to null
+                        }
+                    }
+                }
             }
         }
 }
