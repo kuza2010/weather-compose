@@ -14,6 +14,7 @@ buildscript {
         activity_compose_version = '1.5.0'
         lifecycle_version = '2.6.0-alpha01'
         hilt_navigation_compose_version = '1.0.0'
+        accompanist_swiperefresh_version = '0.25.1'
     }
     dependencies {
         classpath('com.google.dagger:hilt-android-gradle-plugin:2.42')

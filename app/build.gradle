@@ -74,6 +74,9 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$compose_nav_version"
     implementation "androidx.activity:activity-compose:$activity_compose_version"
 
+    // accompanist
+    implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_swiperefresh_version"
+
     // network
     implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")

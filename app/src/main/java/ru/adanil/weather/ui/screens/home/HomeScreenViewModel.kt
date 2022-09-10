@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -44,8 +45,31 @@ class HomeScreenViewModel @Inject constructor(
     val uiState: StateFlow<HomeUiState>
         get() = _uiState
 
+    private val _isRefreshing: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean>
+        get() = _isRefreshing
+
     init {
         refresh()
+    }
+
+    fun refreshWeather() {
+        viewModelScope.launch {
+            val currentCity = cityRepository.getUserSelectedCity().firstOrNull()
+            if (currentCity != null) {
+                _isRefreshing.update { true }
+                when (val response = weatherService.currentWeather(currentCity)) {
+                    is Success -> _uiState.update { it.copy(weather = response.value) }
+                    is GenericError,
+                    is NetworkError -> {
+                        SnackBarManager.showMessageAtTheTop(
+                            Message(resourceProvider.string(R.string.error_update_weather))
+                        )
+                    }
+                }
+                _isRefreshing.update { false }
+            }
+        }
     }
 
     private fun refresh() {

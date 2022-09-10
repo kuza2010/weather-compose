@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import ru.adanil.weather.model.domain.CurrentWeather
 import ru.adanil.weather.navigation.WeatherScreens
 import ru.adanil.weather.ui.components.WeatherBackdropScaffold
+import ru.adanil.weather.ui.components.WeatherSwipeToRefresh
 import ru.adanil.weather.util.ext.navigateSingleTop
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -34,6 +35,7 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val scrollState = rememberScrollState()
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val uiState: HomeUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val backdropState = rememberBackdropScaffoldState(initialValue = BackdropValue.Revealed)
 
@@ -55,7 +57,9 @@ fun HomeScreen(
             BackContent(
                 weather = uiState.weather,
                 loading = uiState.loading,
-                onAddButtonClick = navigateToCitiesScreen
+                isRefreshing = isRefreshing,
+                onAddButtonClick = navigateToCitiesScreen,
+                onRefreshRequested = viewModel::refreshWeather,
             )
         },
         frontLayerContent = {
@@ -69,12 +73,23 @@ fun HomeScreen(
 @Composable
 fun BackContent(
     loading: Boolean,
+    isRefreshing: Boolean,
     weather: CurrentWeather?,
-    onAddButtonClick: () -> Unit
+    onAddButtonClick: () -> Unit,
+    onRefreshRequested: () -> Unit,
 ) {
     when {
-        loading || weather == null -> EmptyWeatherSummary(loading, onAddButtonClick)
-        else -> WeatherSummary(weather)
+        loading || weather == null -> {
+            EmptyWeatherSummary(loading, onAddButtonClick)
+        }
+        else -> {
+            WeatherSwipeToRefresh(
+                isRefreshing = isRefreshing,
+                onRefreshRequested = onRefreshRequested,
+            ) {
+                WeatherSummary(weather)
+            }
+        }
     }
 }
 
