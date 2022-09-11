@@ -14,7 +14,10 @@ data class CurrentWeather(
     val coordinate: Coordinate,
     val tempSummary: TempSummary,
     val temperatureUnit: TemperatureUnit,
-)
+) {
+    val visibilityDisplay: String
+        get() = "${visibility / 1000} km"
+}
 
 data class Clouds(
     val all: Int,
@@ -65,15 +68,15 @@ data class TempSummary(
     val feels_like: Double,
 ) {
     val tempDisplay: String
-        get() = "${temp.roundToInt()}°"
+        get() = "${temp.roundToInt()} °"
     val temp_minDisplay: String
-        get() = "${temp_min.roundToInt()}°"
+        get() = "${temp_min.roundToInt()} °"
     val temp_maxDisplay: String
-        get() = "${temp_max.roundToInt()}°"
+        get() = "${temp_max.roundToInt()} °"
     val pressureDisplay: String
-        get() = "${pressure.roundToInt()}hPa"
+        get() = "${pressure.roundToInt()} hPa"
     val humidityDisplay: String
-        get() = "${humidity.roundToInt()}%"
+        get() = "${humidity.roundToInt()} %"
     val feels_likeDisplay: String
-        get() = "${feels_like.roundToInt()}°"
+        get() = "${feels_like.roundToInt()} °"
 }

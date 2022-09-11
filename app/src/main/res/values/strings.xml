@@ -1,18 +1,30 @@
 <resources>
     <string name="app_name">Weather today</string>
 
+    <!-- General string -->
     <string name="general_undo_caps">UNDO</string>
     <string name="general_search_placeholder">Enter something…</string>
     <string name="general_empty_string">-</string>
     <string name="general_blank_string"> </string>
 
+    <!-- Titles -->
     <string name="title_user_cities">Your cities</string>
+    <string name="title_weather_feels_like">FEELS LIKE</string>
+    <string name="title_weather_visibility">VISIBILITY</string>
+    <string name="title_weather_humidity">HUMIDITY</string>
+    <string name="title_weather_pressure">PRESSURE</string>
+    <string name="feels_like_description">The weather feels like…</string>
+    <string name="title_weather_visibility_description">The distance in km</string>
+    <string name="title_weather_humidity_description">Air humidity</string>
+    <string name="title_weather_pressure_description">Approximately pressure representation</string>
 
+    <!-- Snackbar messages -->
     <string name="message_select_city">Choose your city</string>
     <string name="message_select_city_hint">Where are you, mate 👀?</string>
     <string name="message_select_city_variant">Click to choose city</string>
     <string name="message_city_removed">City %1$s removed</string>
 
+    <!-- Search screen messages -->
     <string name="search_no_result_emoji">No result found 🤷</string>
     <string name="search_placeholder_city_search">Enter city name or country code…</string>
 

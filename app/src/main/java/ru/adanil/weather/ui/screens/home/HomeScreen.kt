@@ -1,21 +1,11 @@
 package ru.adanil.weather.ui.screens.home
 
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BackdropValue
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
 import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -34,7 +24,6 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
-    val scrollState = rememberScrollState()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val uiState: HomeUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val backdropState = rememberBackdropScaffoldState(initialValue = BackdropValue.Revealed)
@@ -53,6 +42,7 @@ fun HomeScreen(
             )
         },
         scaffoldState = backdropState,
+        headerHeight = 40.dp,
         backLayerContent = {
             BackContent(
                 weather = uiState.weather,
@@ -64,7 +54,9 @@ fun HomeScreen(
         },
         frontLayerContent = {
             FrontContent(
-                scrollState = scrollState
+                weather = uiState.weather,
+                loading = uiState.loading,
+                onAddButtonClick = navigateToCitiesScreen,
             )
         }
     )
@@ -95,16 +87,19 @@ fun BackContent(
 
 @Composable
 fun FrontContent(
-    scrollState: ScrollState
+    loading: Boolean,
+    weather: CurrentWeather?,
+    onAddButtonClick: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(horizontal = 24.dp, vertical = 0.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(text = "frontLayerContent")
+    when {
+        loading || weather == null -> {
+            EmptyWeatherSummary(
+                loading = loading,
+                onAddButtonClick = onAddButtonClick
+            )
+        }
+        else -> {
+            WeatherDetails(currentWeather = weather)
+        }
     }
 }
