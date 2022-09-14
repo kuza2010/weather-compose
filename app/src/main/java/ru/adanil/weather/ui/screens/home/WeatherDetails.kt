@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
@@ -49,9 +50,7 @@ fun WeatherDetails(
                 .height(3.dp)
                 .background(WeatherTheme.color.onBackground)
         )
-
         LazyVerticalGrid(
-            userScrollEnabled = false,
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(top = 0.dp, start = 20.dp, end = 20.dp, bottom = 0.dp)
         ) {
@@ -59,6 +58,28 @@ fun WeatherDetails(
             item { VisibilityCard(currentWeather.visibilityDisplay) }
             item { HumidityCard(currentWeather.tempSummary.humidityDisplay) }
             item { PressureCard(currentWeather.tempSummary.pressureDisplay) }
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Card(
+                    elevation = 0.dp,
+                    modifier = Modifier.padding(5.dp),
+                    shape = RoundedCornerShape(10.dp),
+                    contentColor = contentColorFor(WeatherTheme.color.surface),
+                    backgroundColor = WeatherTheme.color.background.copy(alpha = 0.2f),
+                ) {
+                    Column(
+                        modifier = Modifier.padding(5.dp)
+                    ) {
+                        Text(
+                            text = "3-hours forecast",
+                            style = WeatherTheme.typography.caption,
+                        )
+                        Text(
+                            text = "3-hours forecast will be here soon",
+                            style = WeatherTheme.typography.caption,
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -94,8 +115,9 @@ fun HumidityCard(humidityDisplay: String) {
 }
 
 @Composable
-fun PressureCard(humidityDisplay: String) {
+fun PressureCard(humidityDisplay: String, isSquare: Boolean = true) {
     WeatherCard(
+        isSquare = isSquare,
         bodyString = humidityDisplay,
         icon = R.drawable.ic_baseline_compress_24,
         titleString = stringResource(R.string.title_weather_pressure),
@@ -108,6 +130,7 @@ fun WeatherCard(
     bodyString: String,
     titleString: String,
     icon: Int? = null,
+    isSquare: Boolean = true,
     bottomString: String? = null,
 ) {
     val text = buildAnnotatedString {
@@ -139,8 +162,13 @@ fun WeatherCard(
     Card(
         elevation = 0.dp,
         modifier = Modifier
-            .padding(10.dp)
-            .aspectRatio(1f),
+            .padding(5.dp)
+            .let {
+                if (isSquare) {
+                    return@let it.aspectRatio(1f)
+                }
+                return@let it
+            },
         shape = RoundedCornerShape(10.dp),
         contentColor = contentColorFor(WeatherTheme.color.surface),
         backgroundColor = WeatherTheme.color.background.copy(alpha = 0.2f),
