@@ -117,7 +117,6 @@ fun HumidityCard(humidityDisplay: String) {
 @Composable
 fun PressureCard(humidityDisplay: String, isSquare: Boolean = true) {
     WeatherCard(
-        isSquare = isSquare,
         bodyString = humidityDisplay,
         icon = R.drawable.ic_baseline_compress_24,
         titleString = stringResource(R.string.title_weather_pressure),
@@ -130,7 +129,6 @@ fun WeatherCard(
     bodyString: String,
     titleString: String,
     icon: Int? = null,
-    isSquare: Boolean = true,
     bottomString: String? = null,
 ) {
     val text = buildAnnotatedString {
@@ -163,12 +161,7 @@ fun WeatherCard(
         elevation = 0.dp,
         modifier = Modifier
             .padding(5.dp)
-            .let {
-                if (isSquare) {
-                    return@let it.aspectRatio(1f)
-                }
-                return@let it
-            },
+            .aspectRatio(1f),
         shape = RoundedCornerShape(10.dp),
         contentColor = contentColorFor(WeatherTheme.color.surface),
         backgroundColor = WeatherTheme.color.background.copy(alpha = 0.2f),
