@@ -1,18 +1,23 @@
 package ru.adanil.weather.ui.screens.home
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
@@ -23,6 +28,9 @@ import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.Placeholder
@@ -66,16 +74,15 @@ fun WeatherDetails(
                     contentColor = contentColorFor(WeatherTheme.color.surface),
                     backgroundColor = WeatherTheme.color.background.copy(alpha = 0.2f),
                 ) {
-                    Column(
-                        modifier = Modifier.padding(5.dp)
+                    Row(
+                        modifier = Modifier
+                            .padding(vertical = 15.dp)
+                            .horizontalScroll(rememberScrollState())
                     ) {
-                        Text(
-                            text = "3-hours forecast",
-                            style = WeatherTheme.typography.caption,
-                        )
-                        Text(
-                            text = "3-hours forecast will be here soon",
-                            style = WeatherTheme.typography.caption,
+                        LineWeatherChart(
+                            modifier = Modifier
+                                .height(100.dp)
+                                .width(600.dp)
                         )
                     }
                 }
@@ -115,7 +122,7 @@ fun HumidityCard(humidityDisplay: String) {
 }
 
 @Composable
-fun PressureCard(humidityDisplay: String, isSquare: Boolean = true) {
+fun PressureCard(humidityDisplay: String) {
     WeatherCard(
         bodyString = humidityDisplay,
         icon = R.drawable.ic_baseline_compress_24,
@@ -189,6 +196,35 @@ fun WeatherCard(
                     style = WeatherTheme.typography.caption
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun LineWeatherChart(
+    modifier: Modifier,
+) {
+    val temp = listOf(10, 16, 15, 14, 14, 13, 12, 11, 11, 10, 9, 9, 9, 12, 13)
+        .map { it.toFloat() }
+    val gradientColors = listOf(
+        WeatherTheme.color.secondary.copy(alpha = 0.3f),
+        Color.Transparent
+    )
+
+    Canvas(modifier = modifier) {
+        val weatherPoints = WeatherPoints(
+            canvasDrawScope = this,
+            temperatureList = temp
+        )
+
+        drawIntoCanvas {
+            drawPath(
+                path = weatherPoints.getPath(),
+                brush = Brush.verticalGradient(
+                    startY = 0.5f,
+                    colors = gradientColors,
+                )
+            )
         }
     }
 }
