@@ -1,5 +1,6 @@
 package ru.adanil.weather.ui.screens.home
 
+import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -28,9 +29,12 @@ import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.Placeholder
@@ -75,9 +79,7 @@ fun WeatherDetails(
                     backgroundColor = WeatherTheme.color.background.copy(alpha = 0.2f),
                 ) {
                     Row(
-                        modifier = Modifier
-                            .padding(vertical = 15.dp)
-                            .horizontalScroll(rememberScrollState())
+                        modifier = Modifier.horizontalScroll(rememberScrollState())
                     ) {
                         LineWeatherChart(
                             modifier = Modifier
@@ -204,12 +206,13 @@ fun WeatherCard(
 fun LineWeatherChart(
     modifier: Modifier,
 ) {
-    val temp = listOf(10, 16, 15, 14, 14, 13, 12, 11, 11, 10, 9, 9, 9, 12, 13)
+    val temp = listOf(10, 17, 1, 14, 14, 13, 12, 11, 11, 10, 9, 9, 9, 12, 13)
         .map { it.toFloat() }
     val gradientColors = listOf(
         WeatherTheme.color.secondary.copy(alpha = 0.3f),
         Color.Transparent
     )
+    val textColor = contentColorFor(backgroundColor = WeatherTheme.color.background).toArgb()
 
     Canvas(modifier = modifier) {
         val weatherPoints = WeatherPoints(
@@ -217,7 +220,28 @@ fun LineWeatherChart(
             temperatureList = temp
         )
 
+        val size = 10.dp.toPx()
+        val textPaint = Paint().apply {
+            textSize = size
+            color = textColor
+        }
+
+        val textPoints = (1 until weatherPoints.graphPoints.size).map { i ->
+            val dif = weatherPoints.graphPoints[i - 1].x + ((weatherPoints.graphPoints[i].x - weatherPoints.graphPoints[i - 1].x) / 2)
+            val numChar = temp[i].toInt().toString().length
+            val x = dif - size * numChar / 2
+            Offset(x, size * 1.5f)
+        }
+
         drawIntoCanvas {
+            textPoints.forEachIndexed { index, point ->
+                it.nativeCanvas.drawText(
+                    temp[index].toInt().toString() + "°",
+                    point.x,
+                    point.y,
+                    textPaint,
+                )
+            }
             drawPath(
                 path = weatherPoints.getPath(),
                 brush = Brush.verticalGradient(
