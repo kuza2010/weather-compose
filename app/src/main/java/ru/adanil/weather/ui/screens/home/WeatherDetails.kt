@@ -228,7 +228,7 @@ fun LineWeatherChart(
 
         val textPoints = (1 until weatherPoints.graphPoints.size).map { i ->
             val dif = weatherPoints.graphPoints[i - 1].x + ((weatherPoints.graphPoints[i].x - weatherPoints.graphPoints[i - 1].x) / 2)
-            val numChar = temp[i].toInt().toString().length
+            val numChar = temp[i - 1].toInt().toString().length
             val x = dif - size * numChar / 2
             Offset(x, size * 1.5f)
         }

@@ -30,7 +30,7 @@ class WeatherPoints(
     fun getPath(): Path {
         val path = Path()
         path.moveTo(points[0].x, points[0].y)
-        points.subList(1, points.size).forEach { point -> path.lineTo(point.x, point.y) }
+        points.forEach { point -> path.lineTo(point.x, point.y) }
         path.close()
         return path
     }
@@ -40,28 +40,48 @@ class WeatherPoints(
         val canvasSize = canvasDrawScope.size
         val columnHeight = canvasSize.height * heightRatio
         val reserved = canvasSize.height - columnHeight
-        val columnWidth = canvasSize.width / temperatureList.lastIndex
+        val columnWidth = canvasSize.width / temperatureList.size
 
         val weatherGraphPoints = mutableListOf<Offset>()
 
         weatherGraphPoints.add(
             Offset(
                 x = 0f,
-                y = reserved + columnHeight * (1f - (temperatureList[0] / maxT))
+                y = calcY(reserved, columnHeight, maxT, temperatureList[0])
+            )
+        )
+        weatherGraphPoints.add(
+            Offset(
+                x = columnWidth,
+                y = calcY(reserved, columnHeight, maxT, temperatureList[0])
             )
         )
         (1 until temperatureList.size).map { i ->
             val point = Offset(
-                x = i * columnWidth,
-                y = reserved + columnHeight * (1f - (temperatureList[i] / maxT))
+                x = calcX(columnWidth, i),
+                y = calcY(reserved, columnHeight, maxT, temperatureList[i])
             )
             weatherGraphPoints.add(point)
         }
         weatherGraphPoints.add(Offset(canvasSize.width, canvasSize.height))
         weatherGraphPoints.add(Offset(0f, canvasSize.height))
 
-        Log.e("TESTIN", "getPointsForCanvas: $weatherGraphPoints")
+        Log.d("WeatherPoints", "points: $weatherGraphPoints")
 
         return weatherGraphPoints
+    }
+
+    private fun calcY(
+        reservedSpace: Float,
+        columnHeight: Float,
+        maxTemperature: Float,
+        currentTemperature: Float
+    ): Float {
+        val tempRatio = currentTemperature / maxTemperature
+        return reservedSpace + columnHeight * (1f - tempRatio)
+    }
+
+    private fun calcX(columnWidth: Float, pointIndex: Int): Float {
+        return (pointIndex + 1) * columnWidth
     }
 }
