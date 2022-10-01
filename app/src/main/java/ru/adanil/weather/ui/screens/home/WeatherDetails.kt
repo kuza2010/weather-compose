@@ -30,17 +30,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.adanil.weather.R
 import ru.adanil.weather.model.domain.CurrentWeather
@@ -79,13 +82,11 @@ fun WeatherDetails(
                     backgroundColor = WeatherTheme.color.background.copy(alpha = 0.2f),
                 ) {
                     Row(
-                        modifier = Modifier.horizontalScroll(rememberScrollState())
+                        modifier = Modifier
+                            .horizontalScroll(rememberScrollState())
+                            .padding(vertical = 5.dp)
                     ) {
-                        LineWeatherChart(
-                            modifier = Modifier
-                                .height(100.dp)
-                                .width(600.dp)
-                        )
+                        LineWeatherChartV2()
                     }
                 }
             }
@@ -203,45 +204,89 @@ fun WeatherCard(
 }
 
 @Composable
-fun LineWeatherChart(
-    modifier: Modifier,
-) {
+fun LineWeatherChartV2() {
     val temp = listOf(10, 17, 1, 14, 14, 13, 12, 11, 11, 10, 9, 9, 9, 12, 13)
         .map { it.toFloat() }
-    val gradientColors = listOf(
-        WeatherTheme.color.secondary.copy(alpha = 0.3f),
-        Color.Transparent
-    )
     val textColor = contentColorFor(backgroundColor = WeatherTheme.color.background).toArgb()
 
-    Canvas(modifier = modifier) {
-        val weatherPoints = WeatherPoints(
-            canvasDrawScope = this,
-            temperatureList = temp
+    val width = 600.dp
+    val weatherChartHeight = 100.dp
+    val weatherChartTextHeight = 10.dp
+
+    val weatherPoints = WeatherPoints(
+        canvasSize = Size(
+            width = LocalDensity.current.run { width.toPx() },
+            height = LocalDensity.current.run { weatherChartHeight.toPx() }
+        ),
+        temperatureList = temp
+    )
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        WeatherTemperature(
+            textColor = textColor,
+            weatherPoints = weatherPoints,
+            textHeight = weatherChartTextHeight,
+            modifier = Modifier
+                .width(width)
+                .padding(bottom = 5.dp)
+                .height(weatherChartTextHeight)
         )
+        WeatherLineChart(
+            weatherPoints = weatherPoints,
+            modifier = Modifier
+                .width(width)
+                .height(weatherChartHeight)
+        )
+    }
+}
 
-        val size = 10.dp.toPx()
-        val textPaint = Paint().apply {
-            textSize = size
-            color = textColor
-        }
+@Composable
+fun WeatherTemperature(
+    textColor: Int,
+    textHeight: Dp,
+    modifier: Modifier,
+    weatherPoints: WeatherPoints
+) {
+    val textSize = LocalDensity.current.run { textHeight.toPx() }
+    val textPaint = Paint().apply {
+        setTextSize(textSize)
+        setColor(textColor)
+    }
+    val points = weatherPoints.graphPoints
+    val temperatures = weatherPoints.temperatureList
 
-        val textPoints = (1 until weatherPoints.graphPoints.size).map { i ->
-            val dif = weatherPoints.graphPoints[i - 1].x + ((weatherPoints.graphPoints[i].x - weatherPoints.graphPoints[i - 1].x) / 2)
-            val numChar = temp[i - 1].toInt().toString().length
-            val x = dif - size * numChar / 2
-            Offset(x, size * 1.5f)
+    Canvas(modifier = modifier) {
+        val textPoints = (0 until points.lastIndex).map { i ->
+            val difX = (points[i].x + points[i + 1].x) / 2
+            val x = difX - textSize / 2
+            Offset(x, textSize)
         }
 
         drawIntoCanvas {
             textPoints.forEachIndexed { index, point ->
                 it.nativeCanvas.drawText(
-                    temp[index].toInt().toString() + "°",
+                    temperatures[index].toInt().toString() + "°",
                     point.x,
                     point.y,
                     textPaint,
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun WeatherLineChart(
+    modifier: Modifier,
+    weatherPoints: WeatherPoints
+) {
+    val gradientColors = listOf(
+        WeatherTheme.color.secondary.copy(alpha = 0.3f),
+        Color.Transparent
+    )
+
+    Canvas(modifier = modifier) {
+        drawIntoCanvas {
             drawPath(
                 path = weatherPoints.getPath(),
                 brush = Brush.verticalGradient(
