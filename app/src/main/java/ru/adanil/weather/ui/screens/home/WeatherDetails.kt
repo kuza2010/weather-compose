@@ -47,10 +47,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.adanil.weather.R
 import ru.adanil.weather.model.domain.CurrentWeather
+import ru.adanil.weather.model.domain.Forecast
 import ru.adanil.weather.ui.theme.WeatherTheme
 
 @Composable
 fun WeatherDetails(
+    forecast: Forecast,
     currentWeather: CurrentWeather,
     isSystemInDarkTheme: Boolean = isSystemInDarkTheme()
 ) {
@@ -86,7 +88,7 @@ fun WeatherDetails(
                             .horizontalScroll(rememberScrollState())
                             .padding(vertical = 5.dp)
                     ) {
-                        LineWeatherChartV2()
+                        LineWeatherChart(forecast = forecast)
                     }
                 }
             }
@@ -204,12 +206,13 @@ fun WeatherCard(
 }
 
 @Composable
-fun LineWeatherChartV2() {
-    val temp = listOf(10, 17, 1, 14, 14, 13, 12, 11, 11, 10, 9, 9, 9, 12, 13)
-        .map { it.toFloat() }
+fun LineWeatherChart(
+    forecast: Forecast,
+) {
+    val temp = forecast.forecast.map { it.tempSummary.temp.toFloat() }
     val textColor = contentColorFor(backgroundColor = WeatherTheme.color.background).toArgb()
 
-    val width = 600.dp
+    val width = 1500.dp
     val weatherChartHeight = 100.dp
     val weatherChartTextHeight = 10.dp
 

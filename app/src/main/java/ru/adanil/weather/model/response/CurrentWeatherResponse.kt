@@ -21,7 +21,7 @@ data class CurrentWeatherResponse(
     @SerializedName("coord") val coordinate: Coordinate,
     @SerializedName("main") val tempSummary: TempSummary,
 ) {
-    suspend fun toDomain(temperatureUnit: TemperatureUnit): CurrentWeather {
+    fun toDomain(temperatureUnit: TemperatureUnit): CurrentWeather {
         return CurrentWeather(
             sys = sys,
             wind = wind,

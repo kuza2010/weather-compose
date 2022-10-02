@@ -19,6 +19,7 @@ import ru.adanil.weather.core.service.connectivity.ConnectivityObserverService
 import ru.adanil.weather.core.service.weather.WeatherService
 import ru.adanil.weather.model.domain.City
 import ru.adanil.weather.model.domain.CurrentWeather
+import ru.adanil.weather.model.domain.Forecast
 import ru.adanil.weather.model.domain.ResponseWrapper.GenericError
 import ru.adanil.weather.model.domain.ResponseWrapper.NetworkError
 import ru.adanil.weather.model.domain.ResponseWrapper.Success
@@ -29,8 +30,9 @@ import javax.inject.Inject
 data class HomeUiState(
     val city: City? = null,
     val loading: Boolean = true,
+    val forecast: Forecast? = null,
     val weather: CurrentWeather? = null,
-    val connectionStatus: ConnectionStatus? = null
+    val connectionStatus: ConnectionStatus? = null,
 )
 
 @HiltViewModel
@@ -58,8 +60,13 @@ class HomeScreenViewModel @Inject constructor(
             val currentCity = cityRepository.getUserSelectedCity().firstOrNull()
             if (currentCity != null) {
                 _isRefreshing.update { true }
-                when (val response = weatherService.currentWeather(currentCity)) {
-                    is Success -> _uiState.update { it.copy(weather = response.value) }
+                when (val response = weatherService.currentWeatherWithForecast(currentCity)) {
+                    is Success -> _uiState.update {
+                        it.copy(
+                            weather = response.value.first,
+                            forecast = response.value.second
+                        )
+                    }
                     is GenericError,
                     is NetworkError -> {
                         SnackBarManager.showMessageAtTheTop(
@@ -87,23 +94,25 @@ class HomeScreenViewModel @Inject constructor(
                 .distinctUntilChanged()
                 .retrieveWeather()
                 .collect { userCityAndWeather ->
+                    val weather = userCityAndWeather.second
                     _uiState.update {
                         it.copy(
                             loading = false,
-                            city = userCityAndWeather.first,
-                            weather = userCityAndWeather.second,
+                            weather = weather?.first,
+                            forecast = weather?.second,
+                            city = userCityAndWeather.first
                         )
                     }
                 }
         }
     }
 
-    private fun Flow<City?>.retrieveWeather(): Flow<Pair<City?, CurrentWeather?>> =
+    private fun Flow<City?>.retrieveWeather(): Flow<Pair<City?, Pair<CurrentWeather, Forecast>?>> =
         map { userCity ->
             when (userCity) {
-                null -> userCity to null
+                null -> null to null
                 else -> {
-                    when (val response = weatherService.currentWeather(userCity)) {
+                    when (val response = weatherService.currentWeatherWithForecast(userCity)) {
                         is Success -> userCity to response.value
                         is GenericError,
                         is NetworkError -> {

@@ -12,6 +12,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import ru.adanil.weather.model.domain.CurrentWeather
+import ru.adanil.weather.model.domain.Forecast
 import ru.adanil.weather.navigation.WeatherScreens
 import ru.adanil.weather.ui.components.WeatherBackdropScaffold
 import ru.adanil.weather.ui.components.WeatherSwipeToRefresh
@@ -56,6 +57,7 @@ fun HomeScreen(
             FrontContent(
                 weather = uiState.weather,
                 loading = uiState.loading,
+                forecast = uiState.forecast,
                 onAddButtonClick = navigateToCitiesScreen,
             )
         }
@@ -88,18 +90,22 @@ fun BackContent(
 @Composable
 fun FrontContent(
     loading: Boolean,
+    forecast: Forecast?,
     weather: CurrentWeather?,
     onAddButtonClick: () -> Unit,
 ) {
     when {
-        loading || weather == null -> {
+        loading || weather == null || forecast == null -> {
             EmptyWeatherSummary(
                 loading = loading,
                 onAddButtonClick = onAddButtonClick
             )
         }
         else -> {
-            WeatherDetails(currentWeather = weather)
+            WeatherDetails(
+                forecast = forecast,
+                currentWeather = weather
+            )
         }
     }
 }
