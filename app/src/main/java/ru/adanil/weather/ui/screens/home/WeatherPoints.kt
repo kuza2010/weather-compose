@@ -1,9 +1,9 @@
 package ru.adanil.weather.ui.screens.home
 
-import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import kotlin.math.abs
 
 /**
  * Weather graph represented as a path figure.
@@ -16,12 +16,13 @@ class WeatherPoints(
         const val MIN_COLLECTION_SIZE = 2
     }
 
-    val points by lazy {
+    private val points by lazy {
         getPointsForCanvas(canvasSize)
     }
-    val graphPoints
+    val graphPoints by lazy {
         // exclude last two path points
-        get() = points.subList(0, points.size - 2)
+        points.subList(0, points.size - 2)
+    }
 
     init {
         require(temperatureList.size >= MIN_COLLECTION_SIZE)
@@ -36,37 +37,46 @@ class WeatherPoints(
     }
 
     private fun getPointsForCanvas(canvasSize: Size): List<Offset> {
-        val maxT = temperatureList.max()
+        val scaledTemperature = getScaledTemperature()
+        val maxT = scaledTemperature.max()
         val columnHeight = canvasSize.height
         val columnWidth = canvasSize.width / temperatureList.size
 
         val weatherGraphPoints = mutableListOf<Offset>()
 
+        // add first points
         weatherGraphPoints.add(
             Offset(
                 x = 0f,
-                y = calcY(columnHeight, maxT, temperatureList[0])
+                y = calcY(columnHeight, maxT, scaledTemperature[0])
             )
         )
         weatherGraphPoints.add(
             Offset(
                 x = columnWidth,
-                y = calcY(columnHeight, maxT, temperatureList[0])
+                y = calcY(columnHeight, maxT, scaledTemperature[0])
             )
         )
-        (1 until temperatureList.size).map { i ->
+        // add main graph points
+        (1 until scaledTemperature.size).map { i ->
             val point = Offset(
                 x = calcX(columnWidth, i),
-                y = calcY(columnHeight, maxT, temperatureList[i])
+                y = calcY(columnHeight, maxT, scaledTemperature[i])
             )
             weatherGraphPoints.add(point)
         }
+        // add last points
         weatherGraphPoints.add(Offset(canvasSize.width, canvasSize.height))
         weatherGraphPoints.add(Offset(0f, canvasSize.height))
-
-        Log.d("WeatherPoints", "points: $weatherGraphPoints")
-
         return weatherGraphPoints
+    }
+
+    private fun getScaledTemperature(): List<Float> {
+        val minT = temperatureList.min()
+        return when {
+            minT < 0f -> temperatureList.map { it + abs(minT) }
+            else -> temperatureList
+        }
     }
 
     private fun calcX(columnWidth: Float, pointIndex: Int): Float = (pointIndex + 1) * columnWidth
